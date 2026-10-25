@@ -1,18 +1,9 @@
 import { useState } from 'react'
 import { perfil } from '../../data/perfil'
+import { validar } from '../../utils/validarContato'
 import styles from './FormularioContato.module.css'
 
 const vazio = { nome: '', email: '', mensagem: '' }
-
-// Regras de validação separadas do componente: função pura, fácil de ler e testar.
-function validar(campos) {
-  const erros = {}
-  if (campos.nome.trim().length < 2) erros.nome = 'Informe seu nome.'
-  // Formato mínimo de e-mail: algo@algo.algo
-  if (!/^\S+@\S+\.\S+$/.test(campos.email)) erros.email = 'Informe um e-mail válido.'
-  if (campos.mensagem.trim().length < 10) erros.mensagem = 'A mensagem precisa ter pelo menos 10 caracteres.'
-  return erros
-}
 
 export default function FormularioContato() {
   // Formulário controlado: o React guarda o valor de cada campo no estado

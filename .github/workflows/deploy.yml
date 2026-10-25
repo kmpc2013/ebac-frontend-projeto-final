@@ -30,6 +30,8 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
+      # Teste quebrado interrompe o job: nada é publicado
+      - run: npm test
 
       # O Pages serve o site em /<nome-do-repositório>/, então o Vite precisa gerar os caminhos com esse prefixo
       - run: npm run build -- --base=/${{ github.event.repository.name }}/
