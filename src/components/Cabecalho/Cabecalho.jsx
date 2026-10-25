@@ -7,28 +7,36 @@ import styles from './Cabecalho.module.css'
 // então o useEffect do hook não roda de novo à toa.
 const ids = secoes.map((secao) => secao.id)
 
+// "Luis Fernandes" -> "LF": iniciais para o logo estilo prompt
+const iniciais = perfil.nome
+  .split(' ')
+  .map((parte) => parte[0])
+  .join('')
+
 export default function Cabecalho() {
   // Controla o menu no celular (aberto/fechado)
   const [menuAberto, setMenuAberto] = useState(false)
   const secaoAtiva = useSecaoAtiva(ids)
 
   return (
-    <header className={styles.cabecalho}>
+    <header className={`${styles.cabecalho} ${menuAberto ? styles.comMenu : ''}`}>
       <div className={styles.conteudo}>
-        <a href="#inicio" className={styles.logo}>
-          {perfil.nome}
+        <a href="#inicio" className={`${styles.logo} cursor-target`} aria-label={`${perfil.nome}: voltar ao início`}>
+          {iniciais}
+          <span className={styles.cursorPiscando} aria-hidden="true">
+            _
+          </span>
         </a>
 
-        {/* Botão "hambúrguer": só aparece no celular (ver CSS) */}
+        {/* Botão do menu: só aparece no celular (ver CSS) */}
         <button
           type="button"
           className={styles.botaoMenu}
           aria-expanded={menuAberto}
           aria-controls="menu-principal"
-          aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
           onClick={() => setMenuAberto(!menuAberto)}
         >
-          {menuAberto ? '✕' : '☰'}
+          {menuAberto ? 'Fechar' : 'Menu'}
         </button>
 
         {/* A classe "aberto" é somada só quando o menu está aberto */}
@@ -37,16 +45,20 @@ export default function Cabecalho() {
           aria-label="Seções do portfólio"
           className={`${styles.menu} ${menuAberto ? styles.aberto : ''}`}
         >
-          {secoes.map((secao) => (
+          {secoes.map((secao, indice) => (
             <a
               key={secao.id}
               href={`#${secao.id}`}
-              className={secaoAtiva === secao.id ? styles.ativo : undefined}
+              className={`${secaoAtiva === secao.id ? styles.ativo : ''} cursor-target`}
               // aria-current avisa leitores de tela qual é a seção atual
               aria-current={secaoAtiva === secao.id ? 'true' : undefined}
               // Ao escolher uma seção no celular, o menu fecha sozinho
               onClick={() => setMenuAberto(false)}
             >
+              {/* Número com dois dígitos: 00, 01, 02... */}
+              <span className={styles.numero} aria-hidden="true">
+                {String(indice).padStart(2, '0')}
+              </span>
               {secao.rotulo}
             </a>
           ))}

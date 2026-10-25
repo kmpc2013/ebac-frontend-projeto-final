@@ -1,9 +1,19 @@
+/* Etiqueta em estilo terminal: texto mono entre colchetes, sem "pílula" */
 .etiqueta {
   list-style: none;
-  font-size: 0.85rem;
-  padding: 4px 12px;
-  border-radius: 999px;
-  background: rgba(56, 189, 248, 0.12);
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
+}
+
+.etiqueta::before {
+  content: '[';
   color: var(--cor-destaque);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.etiqueta::after {
+  content: ']';
+  color: var(--cor-destaque);
 }

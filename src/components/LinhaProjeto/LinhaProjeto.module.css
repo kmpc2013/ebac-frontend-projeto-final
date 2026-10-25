@@ -1,16 +1,85 @@
-.card {
-  display: flex;
-  flex-direction: column;
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
+/* Celular: tudo empilhado, imagem sempre visível no topo */
+.linha {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--cor-borda);
 }
 
-.card:hover {
-  transform: translateY(-4px);
+.numero {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  color: var(--cor-destaque);
+}
+
+.corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.titulo {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.6vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  transition:
+    color 0.3s,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.descricao {
+  margin: 0;
+  max-width: 56ch;
+  color: var(--cor-texto-suave);
+}
+
+.tecnologias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 6px;
+}
+
+.link {
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-texto);
+  text-decoration: none;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--cor-borda);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.link:hover {
+  color: var(--cor-destaque);
   border-color: var(--cor-destaque);
+}
+
+.linkDemo {
+  color: var(--cor-destaque);
+}
+
+.moldura {
+  order: -1;
+  overflow: hidden;
+  border: 1px solid var(--cor-borda);
 }
 
 .imagem {
@@ -18,57 +87,91 @@
   /* Mantém todas as imagens na mesma proporção, mesmo com capturas de tamanhos diferentes */
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-bottom: 1px solid var(--cor-borda);
 }
 
-.corpo {
-  /* Ocupa o espaço restante para os botões ficarem sempre no rodapé do card */
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px;
+/* Desktop: número | conteúdo | imagem. A imagem começa recortada (clip-path)
+   e abre de baixo para cima quando o mouse passa ou um link recebe foco. */
+@media (min-width: 900px) {
+  .linha {
+    grid-template-columns: 64px 1fr minmax(260px, 30%);
+    gap: 32px;
+    padding: 48px 0;
+    align-items: center;
+  }
+
+  .numero {
+    align-self: start;
+    padding-top: 0.9em;
+  }
+
+  .moldura {
+    order: 0;
+    border-color: transparent;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 0.7s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+
+  .imagem {
+    transform: scale(1.15);
+    filter: grayscale(1);
+    transition:
+      transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 0.9s;
+  }
+
+  .linha:hover .moldura,
+  .linha:focus-within .moldura {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .linha:hover .imagem,
+  .linha:focus-within .imagem {
+    transform: scale(1);
+    filter: grayscale(0);
+  }
+
+  .linha:hover .titulo,
+  .linha:focus-within .titulo {
+    color: var(--cor-destaque);
+    transform: translateX(12px);
+  }
 }
 
-.titulo {
-  margin: 0;
-  font-size: 1.15rem;
+@media (prefers-reduced-motion: reduce) {
+  .titulo,
+  .moldura,
+  .imagem {
+    transition: none;
+  }
 }
 
-.descricao {
-  margin: 0;
+/* Aviso no lugar do link quando o repositório é interno */
+.privado {
+  font-family: var(--fonte-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--cor-texto-suave);
+  padding: 6px 0;
 }
 
-.tecnologias {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+/* Selo de status acima do título (ex.: "Em andamento") */
+.status {
   margin: 0;
-  padding: 0;
-}
-
-.links {
-  margin-top: auto;
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--cor-destaque);
 }
 
-.botaoPrimario,
-.botaoSecundario {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.botaoPrimario {
+.ponto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: var(--cor-destaque);
-  color: var(--cor-fundo);
-}
-
-.botaoSecundario {
-  border: 1px solid var(--cor-borda);
-  color: var(--cor-texto);
+  box-shadow: 0 0 10px var(--cor-destaque);
 }

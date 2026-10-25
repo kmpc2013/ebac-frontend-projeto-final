@@ -1,20 +1,22 @@
 import Etiqueta from '../Etiqueta/Etiqueta'
-import styles from './CardProjeto.module.css'
+import styles from './LinhaProjeto.module.css'
 
-// Recebe um projeto por props e monta o card. Não sabe de onde os dados vêm:
-// quem decide a lista é a seção Projetos.
-export default function CardProjeto({ titulo, descricao, imagem, tecnologias, repositorio, demo }) {
+// Recebe um projeto por props e monta uma linha da lista. Não sabe de onde os dados vêm:
+// quem decide a lista é a seção Projetos (que também manda o "numero" da linha).
+export default function LinhaProjeto({ numero, titulo, descricao, imagem, tecnologias, repositorio, demo, status }) {
   return (
-    <article className={styles.card}>
-      {/* alt descreve a imagem para leitores de tela e quando ela não carrega */}
-      <img
-        src={imagem}
-        alt={`Captura de tela do projeto ${titulo}`}
-        className={styles.imagem}
-        loading="lazy"
-      />
+    <article className={styles.linha}>
+      <span className={styles.numero} aria-hidden="true">
+        {numero}
+      </span>
 
       <div className={styles.corpo}>
+        {/* Status opcional (ex.: "Em andamento"), só aparece se o projeto tiver */}
+        {status && (
+          <p className={styles.status}>
+            <span className={styles.ponto} aria-hidden="true" /> {status}
+          </p>
+        )}
         <h3 className={styles.titulo}>{titulo}</h3>
         <p className={styles.descricao}>{descricao}</p>
 
@@ -25,17 +27,33 @@ export default function CardProjeto({ titulo, descricao, imagem, tecnologias, re
         </ul>
 
         <div className={styles.links}>
-          {/* target="_blank" abre em outra aba; rel="noreferrer" impede a outra página de controlar esta */}
-          <a href={repositorio} target="_blank" rel="noreferrer" className={styles.botaoSecundario}>
-            Repositório
-          </a>
-          {/* Renderização condicional: só mostra o botão se existir demo */}
+          {/* Projeto interno não tem link público: mostra só um aviso no lugar do botão.
+              target="_blank" abre em outra aba; rel="noreferrer" impede a outra página de controlar esta */}
+          {repositorio ? (
+            <a href={repositorio} target="_blank" rel="noreferrer" className={`${styles.link} cursor-target`}>
+              Repositório <span aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <span className={styles.privado}>Repositório privado · projeto interno</span>
+          )}
+          {/* Renderização condicional: só mostra o link se existir demo */}
           {demo && (
-            <a href={demo} target="_blank" rel="noreferrer" className={styles.botaoPrimario}>
-              Ver online
+            <a
+              href={demo}
+              target="_blank"
+              rel="noreferrer"
+              className={`${styles.link} ${styles.linkDemo} cursor-target`}
+            >
+              Ver online <span aria-hidden="true">↗</span>
             </a>
           )}
         </div>
+      </div>
+
+      {/* No desktop a imagem fica recortada e se revela ao passar o mouse na linha (ver CSS).
+          alt descreve a imagem para leitores de tela e quando ela não carrega. */}
+      <div className={styles.moldura}>
+        <img src={imagem} alt={`Diagrama do projeto ${titulo}`} className={styles.imagem} loading="lazy" />
       </div>
     </article>
   )

@@ -9,8 +9,12 @@ export default function Rodape() {
   return (
     <footer className={styles.rodape}>
       <p>
-        © {ano} {perfil.nome} · Feito com React e Vite
+        © {ano} {perfil.nome}
       </p>
+      <p>Feito com React + Vite</p>
+      <a href="#inicio" className={`${styles.topo} cursor-target`}>
+        ↑ Voltar ao topo
+      </a>
     </footer>
   )
 }

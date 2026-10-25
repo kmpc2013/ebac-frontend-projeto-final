@@ -87,8 +87,8 @@ export default function FormularioContato() {
         {erros.mensagem && <span className={styles.erro}>{erros.mensagem}</span>}
       </label>
 
-      <button type="submit" className={styles.botao}>
-        Enviar mensagem
+      <button type="submit" className={`${styles.botao} cursor-target`}>
+        Enviar mensagem <span aria-hidden="true">→</span>
       </button>
 
       {/* role="status" faz o leitor de tela anunciar a mensagem quando ela aparece */}
