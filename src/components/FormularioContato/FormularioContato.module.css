@@ -1,0 +1,57 @@
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.campo input,
+.campo textarea {
+  font: inherit;
+  font-weight: 400;
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 10px 12px;
+  /* Só deixa redimensionar a altura, nunca a largura */
+  resize: vertical;
+}
+
+/* Borda vermelha nos campos marcados como inválidos pelo React */
+.campo [aria-invalid='true'] {
+  border-color: var(--cor-erro);
+}
+
+.erro {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--cor-erro);
+}
+
+.botao {
+  align-self: flex-start;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--cor-destaque-escura);
+}
+
+.sucesso {
+  margin: 0;
+  color: var(--cor-sucesso);
+}

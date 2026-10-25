@@ -1,0 +1,21 @@
+.secao {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 72px 16px;
+}
+
+.titulo {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 32px;
+}
+
+/* Traço decorativo abaixo do título */
+.titulo::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--cor-destaque);
+}

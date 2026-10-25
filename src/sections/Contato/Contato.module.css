@@ -1,0 +1,33 @@
+.grade {
+  display: grid;
+  gap: 32px;
+}
+
+.redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.redes a {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.redes a:hover {
+  border-color: var(--cor-destaque);
+  color: var(--cor-destaque);
+}
+
+/* Desktop: texto e redes à esquerda, formulário à direita */
+@media (min-width: 768px) {
+  .grade {
+    grid-template-columns: 1fr 1.4fr;
+  }
+}

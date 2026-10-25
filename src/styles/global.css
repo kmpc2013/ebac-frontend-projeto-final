@@ -1,0 +1,63 @@
+/* Único CSS global: variáveis de tema e reset. O resto fica em CSS Modules. */
+:root {
+  --cor-fundo: #0f172a;
+  --cor-superficie: #1e293b;
+  --cor-borda: #334155;
+  --cor-texto: #e2e8f0;
+  --cor-texto-suave: #94a3b8;
+  --cor-destaque: #38bdf8;
+  --cor-destaque-escura: #0284c7;
+  --cor-erro: #f87171;
+  --cor-sucesso: #4ade80;
+
+  --raio: 12px;
+  --largura-max: 1100px;
+  /* Altura do cabeçalho fixo: usada para o rolar não esconder o título da seção */
+  --altura-header: 64px;
+
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Clicar num link #secao rola suavemente em vez de pular */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--cor-destaque);
+}
+
+/* Toda seção com id fica abaixo do cabeçalho fixo ao ser alcançada por âncora */
+section[id] {
+  scroll-margin-top: var(--altura-header);
+}
+
+/* Foco visível para quem navega pelo teclado */
+:focus-visible {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,74 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--cor-destaque);
+}
+
+.imagem {
+  width: 100%;
+  /* Mantém todas as imagens na mesma proporção, mesmo com capturas de tamanhos diferentes */
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.corpo {
+  /* Ocupa o espaço restante para os botões ficarem sempre no rodapé do card */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.descricao {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.tecnologias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.links {
+  margin-top: auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.botaoPrimario,
+.botaoSecundario {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.botaoPrimario {
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+}
+
+.botaoSecundario {
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+}

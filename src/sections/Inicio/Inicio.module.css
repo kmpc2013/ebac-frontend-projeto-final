@@ -1,0 +1,63 @@
+.inicio {
+  max-width: var(--largura-max);
+  /* Ocupa quase a tela toda, descontando o cabeçalho */
+  min-height: calc(100vh - var(--altura-header));
+  margin: 0 auto;
+  padding: 48px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.saudacao {
+  margin: 0;
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.nome {
+  margin: 4px 0;
+  /* clamp(mínimo, ideal, máximo): o tamanho acompanha a largura da tela */
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.cargo {
+  margin: 0 0 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--cor-texto-suave);
+}
+
+.resumo {
+  max-width: 640px;
+  margin: 0 0 32px;
+  font-size: 1.1rem;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.botaoPrimario,
+.botaoSecundario {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.botaoPrimario {
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+}
+
+.botaoPrimario:hover {
+  background: var(--cor-destaque-escura);
+}
+
+.botaoSecundario {
+  border: 1px solid var(--cor-destaque);
+  color: var(--cor-destaque);
+}

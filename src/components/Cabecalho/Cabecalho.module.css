@@ -1,0 +1,88 @@
+.cabecalho {
+  /* Fica preso no topo enquanto a página rola */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--altura-header);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.conteudo {
+  max-width: var(--largura-max);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.botaoMenu {
+  display: none;
+  background: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  color: var(--cor-texto);
+  font-size: 1.3rem;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  gap: 4px;
+}
+
+.menu a {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.menu a:hover {
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+}
+
+/* Link da seção visível no momento */
+.menu a.ativo {
+  color: var(--cor-destaque);
+}
+
+/* Celular: o menu vira uma lista que desce abaixo do cabeçalho */
+@media (max-width: 720px) {
+  .botaoMenu {
+    display: block;
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: var(--altura-header);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    padding: 8px 16px 16px;
+    background: var(--cor-fundo);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .menu.aberto {
+    display: flex;
+  }
+
+  .menu a {
+    padding: 12px;
+  }
+}

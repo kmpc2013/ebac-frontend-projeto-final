@@ -1,0 +1,1954 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfólio em React</title>
+<style>
+  :root {
+    --bg: #f7f6f2; --surface: #ffffff; --surface-2: #f0eee8;
+    --text: #1f1d1a; --muted: #5f5a52; --border: #dedad1;
+    --accent: #b4441f; --accent-soft: #f6e3da;
+    --info: #1f5fa8; --info-soft: #e1ecf8;
+    --warn: #8a5a00; --warn-soft: #fbefd2;
+    --ok: #2e7d4f; --ok-soft: #dff1e6;
+    --bad: #a3322a; --bad-soft: #f8e0dd;
+    --code-bg: #24211d; --code-text: #f3efe6; --code-head: #34302b;
+    --radius: 10px;
+    --font: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    --mono: "Cascadia Code", Consolas, "SFMono-Regular", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161513; --surface: #1f1d1a; --surface-2: #2a2724;
+      --text: #ece8e1; --muted: #a8a197; --border: #3a3631;
+      --accent: #ec7a52; --accent-soft: #3b241b;
+      --info: #7fb2ec; --info-soft: #1a2a3d;
+      --warn: #e8b54d; --warn-soft: #382c14;
+      --ok: #6fcf97; --ok-soft: #173023;
+      --bad: #f08a80; --bad-soft: #3a1c19;
+      --code-bg: #0f0e0d; --code-head: #26231f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161513; --surface: #1f1d1a; --surface-2: #2a2724;
+    --text: #ece8e1; --muted: #a8a197; --border: #3a3631;
+    --accent: #ec7a52; --accent-soft: #3b241b;
+    --info: #7fb2ec; --info-soft: #1a2a3d;
+    --warn: #e8b54d; --warn-soft: #382c14;
+    --ok: #6fcf97; --ok-soft: #173023;
+    --bad: #f08a80; --bad-soft: #3a1c19;
+    --code-bg: #0f0e0d; --code-head: #26231f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16.5px; line-height: 1.6; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px 80px; }
+
+  header.hero { padding: 44px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: clamp(28px, 5vw, 38px); line-height: 1.15; margin: 8px 0 12px; }
+  h2 { font-size: 25px; margin: 52px 0 10px; padding-top: 10px; border-top: 1px solid var(--border); scroll-margin-top: 12px; }
+  h2 .num { color: var(--accent); margin-right: 8px; }
+  h3 { font-size: 18px; margin: 26px 0 6px; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 18px; color: var(--muted); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pill { font-size: 14px; padding: 4px 12px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+
+  nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 20px; margin-bottom: 20px; }
+  nav.toc ol { margin: 6px 0 0; padding-left: 22px; columns: 2; column-gap: 32px; }
+  nav.toc a { color: var(--text); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+  @media (max-width: 640px) { nav.toc ol { columns: 1; } }
+
+  code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+  pre { margin: 0; background: var(--code-bg); color: var(--code-text); padding: 14px 16px; overflow-x: auto; font-size: 14px; line-height: 1.55; }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+  /* Parágrafo explicativo antes de cada bloco de código */
+  .explain { margin: 22px 0 0; padding-left: 12px; border-left: 3px solid var(--accent); }
+
+  .file { margin: 10px 0 16px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+  .file-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--code-head); color: #e9e4da; padding: 6px 8px 6px 14px; font: 13px var(--mono); }
+  .file-head .tag { color: #c9a77a; margin-right: 6px; }
+  .copy { font: 600 12.5px var(--font); color: #fff; background: transparent; border: 1px solid #6b655c; border-radius: 6px; padding: 4px 10px; cursor: pointer; flex-shrink: 0; }
+  .copy:hover { background: #4a453f; }
+  .copy.done { border-color: #6fcf97; color: #6fcf97; }
+  .note { font-size: 14.5px; color: var(--muted); margin: 6px 2px 16px; }
+
+  .callout { border-radius: var(--radius); padding: 12px 16px; margin: 16px 0; border-left: 4px solid; }
+  .callout strong:first-child { display: block; margin-bottom: 2px; }
+  .callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+  .info { background: var(--info-soft); border-color: var(--info); }
+  .warn { background: var(--warn-soft); border-color: var(--warn); }
+  .tip { background: var(--ok-soft); border-color: var(--ok); }
+
+  .table-wrap { overflow-x: auto; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; background: var(--surface); border: 1px solid var(--border); }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--surface-2); font-size: 13.5px; }
+  tr:last-child td { border-bottom: none; }
+
+  /* ---------- Diagramas ---------- */
+  .diagram { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin: 14px 0; }
+  .diagram-title { font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .diagram-caption { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+
+  /* Fluxo: etapas em sequência com setas */
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 6px; }
+  .flow .step { flex: 1 1 120px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 13.5px; line-height: 1.35; position: relative; }
+  .flow .step b { display: block; font-size: 13.5px; }
+  .flow .step small { color: var(--muted); font-size: 12.5px; }
+  .flow .arrow { display: flex; align-items: center; color: var(--muted); font-size: 18px; flex: 0 0 auto; }
+  .flow .step.a { background: var(--accent-soft); border-color: var(--accent); }
+  .flow .step.i { background: var(--info-soft); border-color: var(--info); }
+  .flow .step.o { background: var(--ok-soft); border-color: var(--ok); }
+  @media (max-width: 600px) { .flow { flex-direction: column; } .flow .arrow { justify-content: center; transform: rotate(90deg); } }
+
+  /* Comparação lado a lado */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+  .compare > div { border-radius: 8px; padding: 10px 12px; font-size: 14px; border: 1px solid; }
+  .compare .bad { background: var(--bad-soft); border-color: var(--bad); }
+  .compare .good { background: var(--ok-soft); border-color: var(--ok); }
+  .compare h4 { margin: 0 0 6px; font-size: 14.5px; }
+  .compare ol, .compare ul { margin: 0; padding-left: 20px; }
+  .compare .result { margin-top: 6px; font-weight: 700; }
+
+  /* Caixas aninhadas */
+  .nest { border: 2px solid var(--warn); border-radius: 8px; padding: 6px 10px 10px; font-size: 13.5px; }
+  .nest > .lbl { font-weight: 700; display: block; margin-bottom: 6px; }
+  .nest .nest { border-color: var(--info); }
+  .nest .nest .nest { border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Wireframes de layout */
+  .wires { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .wire { border: 2px solid var(--muted); border-radius: 10px; padding: 6px; background: var(--surface-2); }
+  .wire .bar { background: var(--text); color: var(--bg); font-size: 11px; padding: 3px 6px; border-radius: 4px; margin-bottom: 6px; }
+  .wire .grid { display: grid; gap: 6px; }
+  .wire .blk { border-radius: 4px; font-size: 11px; padding: 4px; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .wire .c { background: var(--info-soft); border: 1px solid var(--info); }
+  .wire .p { background: var(--accent-soft); border: 1px solid var(--accent); }
+  .wire-label { font-size: 13px; color: var(--muted); text-align: center; margin-top: 4px; }
+
+  /* Mapeamento em tabela de "estado" */
+  .state { font: 13px var(--mono); background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; }
+
+  figure { margin: 18px 0; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: 14px; color: var(--muted); margin-top: 6px; text-align: center; }
+  .svg-host { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+  .svg-remote { fill: var(--info-soft); stroke: var(--info); stroke-width: 2; }
+  .svg-win { fill: var(--ok-soft); stroke: var(--ok); stroke-width: 2; stroke-dasharray: 6 4; }
+  .svg-t { fill: var(--text); font: 600 15px var(--font); }
+  .svg-s { fill: var(--muted); font: 13px var(--font); }
+  .svg-line { stroke: var(--muted); stroke-width: 2; fill: none; }
+  .svg-ev { stroke: var(--ok); stroke-width: 2.5; fill: none; }
+  .svg-arrow { fill: var(--muted); }
+  .svg-arrow-ok { fill: var(--ok); }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { margin: 6px 0; }
+  .checklist label { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+  .checklist input { width: 19px; height: 19px; margin-top: 3px; accent-color: var(--ok); flex-shrink: 0; }
+  .checklist input:checked + span { color: var(--muted); text-decoration: line-through; }
+  .progress { font-size: 14px; color: var(--muted); }
+
+  a { color: var(--info); }
+  kbd { font: 13px var(--mono); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--surface); }
+  footer { margin-top: 52px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">EBAC · Projeto final · Aula prática</div>
+  <h1>Do zero ao deploy: portfólio profissional com React</h1>
+  <p class="lead">Passo a passo para construir um portfólio com Início, Sobre mim, Projetos, Habilidades e Contato, estilizado com CSS Modules, publicado no GitHub e na Vercel.</p>
+  <div class="meta">
+    <span class="pill">⏱ 5 a 7 horas</span>
+    <span class="pill">React 19 · Vite 8 · CSS Modules</span>
+    <span class="pill">✅ Código testado em build e no navegador</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sumário">
+  <strong>Roteiro</strong>
+  <ol>
+    <li><a href="#visao">Visão geral da tecnologia</a></li>
+    <li><a href="#estrutura">Estrutura final</a></li>
+    <li><a href="#p1">Criar o projeto</a></li>
+    <li><a href="#p2">Base: HTML, entrada e estilo global</a></li>
+    <li><a href="#p3">Dados e imagens</a></li>
+    <li><a href="#p4">Componentes reutilizáveis</a></li>
+    <li><a href="#p5">Navegação e cabeçalho</a></li>
+    <li><a href="#p6">Seções Início e Sobre mim</a></li>
+    <li><a href="#p7">Seções Projetos e Habilidades</a></li>
+    <li><a href="#p8">Seção Contato e rodapé</a></li>
+    <li><a href="#p9">Montar o App</a></li>
+    <li><a href="#testes">Rodar e testar</a></li>
+    <li><a href="#build">Build de produção</a></li>
+    <li><a href="#readme">README.md</a></li>
+    <li><a href="#github">Publicar no GitHub</a></li>
+    <li><a href="#deploy">Deploy na Vercel</a></li>
+    <li><a href="#problemas">Problemas comuns</a></li>
+    <li><a href="#checklist">Checklist final</a></li>
+  </ol>
+</nav>
+
+<div class="callout info">
+  <strong>Como usar esta aula</strong>
+  <p>Siga na ordem. Cada bloco de código tem antes um parágrafo dizendo <b>para que ele serve</b>, o <b>caminho do arquivo</b> no cabeçalho e um botão <b>Copiar</b>. Os comentários dentro do código explicam linha a linha. Todos os comandos são executados na <b>raiz do projeto</b> (a pasta que já tem <code>docs/</code> e <code>CLAUDE.md</code>), no PowerShell ou no terminal do VS Code.</p>
+  <p><b>Dica:</b> no VS Code, ao criar um arquivo digitando o caminho completo (ex.: <code>src/components/Secao/Secao.jsx</code>), as pastas são criadas automaticamente.</p>
+</div>
+
+<!-- ============ VISÃO GERAL ============ -->
+<h2 id="visao"><span class="num">1</span>Visão geral da tecnologia</h2>
+
+<h3>O que vamos construir</h3>
+<p>Uma <b>página única</b> (single page) em React com cinco seções. O menu do topo leva a cada seção por âncora (<code>#projetos</code>, <code>#contato</code>…), destaca a seção visível e vira um menu "hambúrguer" no celular. Todo o conteúdo (textos, projetos, habilidades) fica em arquivos de dados, e os componentes só sabem <i>exibir</i> esses dados.</p>
+
+<h3>Por que React + Vite + CSS Modules</h3>
+<p><b>React</b> permite montar a página com componentes reutilizáveis: o mesmo <code>CardProjeto</code> serve para 3 ou 30 projetos. <b>Vite</b> cria o projeto e gera o build de produção em segundos. <b>CSS Modules</b> é a estilização modular pedida no enunciado: cada componente tem seu <code>.module.css</code>, e o Vite renomeia as classes (ex.: <code>card</code> vira <code>_card_x7f2</code>), então duas classes <code>.titulo</code> em arquivos diferentes nunca se chocam. Não precisa instalar nada a mais.</p>
+
+<h3>Como funciona</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Conceito</th><th>O que é</th><th>No projeto</th></tr></thead>
+  <tbody>
+    <tr><td><b>Componente</b></td><td>Função que devolve JSX (a "cara" de um pedaço da tela)</td><td><code>Cabecalho</code>, <code>Secao</code>, <code>CardProjeto</code>…</td></tr>
+    <tr><td><b>Props</b></td><td>Dados que um componente recebe de quem o usa</td><td><code>&lt;CardProjeto titulo=… tecnologias=… /&gt;</code></td></tr>
+    <tr><td><code>children</code></td><td>Prop especial com o conteúdo colocado entre as tags</td><td><code>&lt;Secao&gt;…conteúdo…&lt;/Secao&gt;</code></td></tr>
+    <tr><td><code>useState</code></td><td>Hook que guarda um valor e redesenha a tela quando ele muda</td><td>Menu aberto/fechado, campos e erros do formulário</td></tr>
+    <tr><td><code>useEffect</code></td><td>Hook para efeitos fora do React (APIs do navegador)</td><td><code>IntersectionObserver</code> que descobre a seção visível</td></tr>
+    <tr><td><b>Hook personalizado</b></td><td>Função <code>useAlgo</code> que agrupa hooks para reutilizar lógica</td><td><code>useSecaoAtiva</code></td></tr>
+    <tr><td><b>CSS Modules</b></td><td>Arquivo <code>.module.css</code> importado como objeto <code>styles</code></td><td><code>className={styles.card}</code></td></tr>
+    <tr><td><b>Deploy</b></td><td>Publicar o build (<code>dist/</code>) num servidor com link público</td><td>Vercel, conectada ao repositório do GitHub</td></tr>
+  </tbody>
+</table>
+</div>
+
+<figure>
+<svg viewBox="0 0 760 300" role="img" aria-labelledby="arq-t">
+  <title id="arq-t">Arquitetura: App monta Cabecalho, cinco seções e Rodape; as seções leem os arquivos de dados e usam componentes reutilizáveis</title>
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="svg-arrow" d="M0,0 L10,5 L0,10 z"></path></marker>
+    <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="svg-arrow-ok" d="M0,0 L10,5 L0,10 z"></path></marker>
+  </defs>
+  <rect class="svg-host" x="280" y="10" width="200" height="56" rx="10"></rect>
+  <text class="svg-t" x="380" y="36" text-anchor="middle">App.jsx</text>
+  <text class="svg-s" x="380" y="55" text-anchor="middle">só organiza a ordem</text>
+
+  <rect class="svg-remote" x="20" y="110" width="160" height="56" rx="10"></rect>
+  <text class="svg-t" x="100" y="136" text-anchor="middle">Cabecalho</text>
+  <text class="svg-s" x="100" y="155" text-anchor="middle">menu + useSecaoAtiva</text>
+  <rect class="svg-remote" x="210" y="110" width="340" height="56" rx="10"></rect>
+  <text class="svg-t" x="380" y="136" text-anchor="middle">sections/</text>
+  <text class="svg-s" x="380" y="155" text-anchor="middle">Inicio · Sobre · Projetos · Habilidades · Contato</text>
+  <rect class="svg-remote" x="580" y="110" width="160" height="56" rx="10"></rect>
+  <text class="svg-t" x="660" y="136" text-anchor="middle">Rodape</text>
+  <text class="svg-s" x="660" y="155" text-anchor="middle">ano + nome</text>
+
+  <rect class="svg-win" x="20" y="220" width="250" height="60" rx="10"></rect>
+  <text class="svg-t" x="145" y="246" text-anchor="middle">data/</text>
+  <text class="svg-s" x="145" y="266" text-anchor="middle">perfil · projetos · habilidades</text>
+  <rect class="svg-host" x="400" y="220" width="340" height="60" rx="10"></rect>
+  <text class="svg-t" x="570" y="246" text-anchor="middle">components/ reutilizáveis</text>
+  <text class="svg-s" x="570" y="266" text-anchor="middle">Secao · CardProjeto · Etiqueta · FormularioContato</text>
+
+  <path class="svg-line" d="M320 66 L110 108" marker-end="url(#a1)"></path>
+  <path class="svg-line" d="M380 66 L380 108" marker-end="url(#a1)"></path>
+  <path class="svg-line" d="M440 66 L650 108" marker-end="url(#a1)"></path>
+  <path class="svg-ev" d="M190 220 L300 168" marker-end="url(#a2)"></path>
+  <path class="svg-line" d="M460 168 L540 218" marker-end="url(#a1)"></path>
+  <text class="svg-s" x="160" y="200">dados</text>
+  <text class="svg-s" x="510" y="196">usa</text>
+</svg>
+<figcaption>Os dados ficam separados da interface: para trocar um projeto você edita <code>data/projetos.js</code>, sem tocar em JSX.</figcaption>
+</figure>
+
+<div class="callout warn">
+  <strong>Versões fixas</strong>
+  <p>A aula foi testada com <b>Node 24</b>, <b>create-vite 9.3.1</b>, <b>Vite 8.3.5</b>, <b>React 19.3.1</b> e <b>oxlint 1.89.0</b>. O <code>package.json</code> usa versões exatas (sem <code>^</code>) para que o seu projeto instale exatamente o que foi testado. Use Node 20.19 ou mais novo (o Vite 8 não roda em versões antigas).</p>
+</div>
+
+<!-- ============ ESTRUTURA ============ -->
+<h2 id="estrutura"><span class="num">2</span>Estrutura final</h2>
+<p class="explain">A organização é por responsabilidade, um dos critérios de avaliação: <code>data/</code> guarda o conteúdo, <code>components/</code> guarda peças reutilizáveis usadas por várias seções, <code>sections/</code> guarda as cinco partes da página e <code>hooks/</code> guarda a lógica reutilizável. Cada componente tem uma pasta com o <code>.jsx</code> e o <code>.module.css</code> lado a lado, então o estilo fica sempre junto de quem o usa.</p>
+<div class="file" data-path="estrutura do projeto"><script type="text/plain">
+ebac-frontend-projeto-final/
+├── CLAUDE.md
+├── docs/                         # material da aula (não é código do portfólio)
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── assets/
+│   │   ├── avatar.svg            # sua foto (troque por .jpg/.png)
+│   │   └── projetos/             # capturas de tela dos projetos
+│   ├── components/               # peças reutilizáveis
+│   │   ├── Cabecalho/            Cabecalho.jsx + Cabecalho.module.css
+│   │   ├── CardProjeto/          CardProjeto.jsx + CardProjeto.module.css
+│   │   ├── Etiqueta/             Etiqueta.jsx + Etiqueta.module.css
+│   │   ├── FormularioContato/    FormularioContato.jsx + .module.css
+│   │   ├── Rodape/               Rodape.jsx + Rodape.module.css
+│   │   └── Secao/                Secao.jsx + Secao.module.css
+│   ├── data/                     # conteúdo do portfólio
+│   │   ├── habilidades.js
+│   │   ├── perfil.js
+│   │   └── projetos.js
+│   ├── hooks/
+│   │   └── useSecaoAtiva.js
+│   ├── sections/                 # as partes da página, na ordem
+│   │   ├── Inicio/  Sobre/  Projetos/  Habilidades/  Contato/
+│   ├── styles/
+│   │   └── global.css            # variáveis e reset (único CSS global)
+│   ├── App.jsx
+│   └── main.jsx
+├── .gitignore
+├── .oxlintrc.json
+├── index.html
+├── package.json
+├── README.md
+└── vite.config.js
+</script></div>
+
+<!-- ============ PASSO 1 ============ -->
+<h2 id="p1"><span class="num">3</span>Criar o projeto</h2>
+
+<p class="explain">O <code>create-vite</code> se recusa a criar o projeto numa pasta que já tem arquivos (a nossa tem <code>docs/</code> e <code>CLAUDE.md</code>): no modo automático ele responde "Operation cancelled" e, no modo interativo, oferece apagar tudo. Por isso criamos o projeto numa subpasta <code>portfolio</code> e depois movemos o conteúdo dela para a raiz. Em seguida apagamos os arquivos de exemplo que o modelo traz e não vamos usar.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# 1) Cria o projeto React (JavaScript) numa subpasta, sem perguntas
+npm create vite@9.3.1 portfolio -- --template react --no-interactive
+
+# 2) Move tudo (inclusive arquivos ocultos como .gitignore) para a raiz e remove a subpasta vazia
+Get-ChildItem portfolio -Force | Move-Item -Destination .
+Remove-Item portfolio
+
+# 3) Apaga os arquivos de exemplo do modelo
+Remove-Item src\App.css, src\index.css, src\assets\hero.png, src\assets\react.svg, src\assets\vite.svg, public\icons.svg
+</script></div>
+<div class="callout warn">
+  <strong>Nunca escolha "Remove existing files"</strong>
+  <p>Se rodar o <code>create-vite</code> sem <code>--no-interactive</code> direto na raiz, ele pergunta o que fazer com a pasta não vazia. A opção de remover arquivos <b>apaga a pasta <code>docs/</code></b> com esta aula.</p>
+</div>
+
+<p class="explain">Substitua o <code>package.json</code> gerado por este. A única diferença real são as versões exatas, sem o <code>^</code>: com <code>^</code>, o npm pode instalar uma versão mais nova do que a testada, e um projeto de portfólio precisa continuar compilando igual daqui a meses. O script <code>lint</code> roda o oxlint, o verificador de código que o Vite agora traz no lugar do ESLint.</p>
+<div class="file" data-path="package.json"><script type="text/plain">
+{
+  "name": "portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "oxlint": "1.89.0",
+    "vite": "8.3.5"
+  }
+}
+</script></div>
+
+<p class="explain">Com o <code>package.json</code> pronto, instale as dependências. O npm cria a pasta <code>node_modules</code> (que não vai para o GitHub, por causa do <code>.gitignore</code>) e o <code>package-lock.json</code>, que registra a versão exata de cada pacote e deve ir para o repositório. Ainda não rode o projeto: o <code>App.jsx</code> do modelo importa arquivos que acabamos de apagar.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Instala as versões exatas do package.json
+npm install
+</script></div>
+<p class="note">Confira: o terminal termina com <code>found 0 vulnerabilities</code>.</p>
+
+<!-- ============ PASSO 2 ============ -->
+<h2 id="p2"><span class="num">4</span>Base: HTML, entrada e estilo global</h2>
+
+<p class="explain">O <code>index.html</code> é a única página HTML do site: o React desenha tudo dentro da <code>div#root</code>. Edite só o começo do arquivo, da primeira linha até <code>&lt;body&gt;</code>: trocamos o idioma para <code>pt-BR</code> (ajuda leitores de tela e o corretor), o título da aba e acrescentamos a descrição exibida pelo Google e pelo LinkedIn. O resto do arquivo continua igual.</p>
+<div class="file" data-path="index.html (trecho: da 1ª linha até &lt;body&gt;)"><script type="text/plain">
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Título e descrição aparecem na aba e quando o link é compartilhado -->
+    <title>Seu Nome | Desenvolvedor Front-end</title>
+    <meta name="description" content="Portfólio de desenvolvimento front-end com projetos em React, JavaScript e CSS." />
+  </head>
+  <body>
+</script></div>
+<p class="note">Não apague a <code>div id="root"</code> nem a linha <code>script type="module" src="/src/main.jsx"</code> que vêm depois do <code>&lt;body&gt;</code>: é por ela que o navegador carrega o React.</p>
+
+<p class="explain">O <code>main.jsx</code> é o ponto de entrada: pega a <code>div#root</code> e renderiza o <code>App</code> nela. A mudança em relação ao modelo é importar <code>./styles/global.css</code> em vez do <code>index.css</code> apagado. O <code>StrictMode</code> só existe em desenvolvimento e roda alguns efeitos duas vezes de propósito, para revelar efeitos sem limpeza.</p>
+<div class="file" data-path="src/main.jsx"><script type="text/plain">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+// CSS global (variáveis e reset) é importado uma vez só, antes de qualquer componente
+import './styles/global.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</script></div>
+
+<p class="explain">Este é o <b>único CSS global</b>. Ele define as variáveis de cor e tamanho (todos os módulos usam <code>var(--cor-destaque)</code>, então trocar o tema é mudar uma linha) e um reset mínimo. O <code>scroll-behavior: smooth</code> faz o clique no menu rolar suavemente, e o <code>scroll-margin-top</code> impede que o cabeçalho fixo cubra o título da seção ao chegar nela.</p>
+<div class="file" data-path="src/styles/global.css"><script type="text/plain">
+/* Único CSS global: variáveis de tema e reset. O resto fica em CSS Modules. */
+:root {
+  --cor-fundo: #0f172a;
+  --cor-superficie: #1e293b;
+  --cor-borda: #334155;
+  --cor-texto: #e2e8f0;
+  --cor-texto-suave: #94a3b8;
+  --cor-destaque: #38bdf8;
+  --cor-destaque-escura: #0284c7;
+  --cor-erro: #f87171;
+  --cor-sucesso: #4ade80;
+
+  --raio: 12px;
+  --largura-max: 1100px;
+  /* Altura do cabeçalho fixo: usada para o rolar não esconder o título da seção */
+  --altura-header: 64px;
+
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Clicar num link #secao rola suavemente em vez de pular */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--cor-destaque);
+}
+
+/* Toda seção com id fica abaixo do cabeçalho fixo ao ser alcançada por âncora */
+section[id] {
+  scroll-margin-top: var(--altura-header);
+}
+
+/* Foco visível para quem navega pelo teclado */
+:focus-visible {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+</script></div>
+
+<!-- ============ PASSO 3 ============ -->
+<h2 id="p3"><span class="num">5</span>Dados e imagens</h2>
+
+<p class="explain">Separar o conteúdo da interface evita repetição e facilita a manutenção: nome, e-mail e links aparecem em várias seções, mas são escritos <b>uma vez só</b> aqui. O array <code>secoes</code> define a ordem e os rótulos do menu; cada <code>id</code> precisa ser igual ao <code>id</code> usado na seção correspondente. Troque os textos pelos seus dados reais antes de publicar.</p>
+<div class="file" data-path="src/data/perfil.js"><script type="text/plain">
+// Dados pessoais num lugar só: trocar aqui atualiza todas as seções que os usam.
+export const perfil = {
+  nome: 'Seu Nome',
+  cargo: 'Desenvolvedor Front-end',
+  resumo:
+    'Desenvolvedor front-end formado pela EBAC, focado em React e interfaces acessíveis e responsivas. Gosto de transformar layouts em componentes reutilizáveis e de código fácil de manter.',
+  sobre: [
+    'Comecei na programação pelo HTML e CSS e hoje construo aplicações completas com React, gerenciamento de estado e consumo de APIs.',
+    'Durante o curso desenvolvi projetos que vão de landing pages a lojas virtuais, sempre com versionamento no GitHub e deploy em produção.',
+  ],
+  localizacao: 'São Paulo, SP',
+  email: 'seuemail@exemplo.com',
+  github: 'https://github.com/seu-usuario',
+  linkedin: 'https://www.linkedin.com/in/seu-usuario',
+}
+
+// Ordem e rótulos do menu. O id precisa ser igual ao id de cada <Secao>.
+export const secoes = [
+  { id: 'inicio', rotulo: 'Início' },
+  { id: 'sobre', rotulo: 'Sobre mim' },
+  { id: 'projetos', rotulo: 'Projetos' },
+  { id: 'habilidades', rotulo: 'Habilidades' },
+  { id: 'contato', rotulo: 'Contato' },
+]
+</script></div>
+
+<p class="explain">A lista de projetos é o coração do portfólio. Cada objeto vira um card, com título, descrição, imagem, tecnologias e links. As imagens são <b>importadas</b>: assim o Vite confere no build se o arquivo existe e gera o caminho final certo. Escolha projetos do curso com tecnologias diferentes (o enunciado avalia a variedade) e use <code>demo: null</code> quando o projeto não tiver versão publicada.</p>
+<div class="file" data-path="src/data/projetos.js"><script type="text/plain">
+// Imagens importadas: o Vite gera o caminho final (com hash) no build.
+import imgEfood from '../assets/projetos/efood.svg'
+import imgAgenda from '../assets/projetos/agenda.svg'
+import imgLanding from '../assets/projetos/landing.svg'
+import imgTarefas from '../assets/projetos/tarefas.svg'
+
+// Cada objeto vira um <CardProjeto>. Para adicionar um projeto, basta incluir um item.
+export const projetos = [
+  {
+    id: 'efood',
+    titulo: 'eFood — delivery de restaurantes',
+    descricao:
+      'Aplicação de pedidos com listagem de restaurantes vinda de API, carrinho lateral e checkout em etapas com validação de formulário.',
+    imagem: imgEfood,
+    tecnologias: ['React', 'TypeScript', 'Redux Toolkit', 'Styled Components', 'Formik'],
+    repositorio: 'https://github.com/seu-usuario/efood',
+    demo: 'https://efood-seu-usuario.vercel.app',
+  },
+  {
+    id: 'agenda',
+    titulo: 'Agenda de contatos',
+    descricao:
+      'CRUD de contatos com edição inline e filtro por nome. O estado global fica no Redux e a interface é toda componentizada.',
+    imagem: imgAgenda,
+    tecnologias: ['React', 'Redux', 'TypeScript', 'Styled Components'],
+    repositorio: 'https://github.com/seu-usuario/agenda-contatos',
+    demo: 'https://agenda-seu-usuario.vercel.app',
+  },
+  {
+    id: 'landing',
+    titulo: 'Landing page responsiva',
+    descricao:
+      'Página de produto com layout mobile first, animações em CSS e pipeline de build com Gulp para compilar SASS e otimizar imagens.',
+    imagem: imgLanding,
+    tecnologias: ['HTML', 'SASS', 'Gulp', 'JavaScript'],
+    repositorio: 'https://github.com/seu-usuario/landing-page',
+    demo: 'https://seu-usuario.github.io/landing-page',
+  },
+  {
+    id: 'tarefas',
+    titulo: 'Lista de tarefas com jQuery',
+    descricao:
+      'Lista de tarefas com adição, marcação de concluídas e remoção, manipulando o DOM com jQuery. Primeiro projeto com eventos e estado na página.',
+    imagem: imgTarefas,
+    tecnologias: ['HTML', 'CSS', 'jQuery'],
+    repositorio: 'https://github.com/seu-usuario/lista-tarefas',
+    demo: null, // Sem demonstração publicada: o card mostra só o repositório
+  },
+]
+</script></div>
+
+<p class="explain">As habilidades ficam agrupadas por categoria para a seção não virar uma sopa de etiquetas: o recrutador bate o olho e encontra "React e ecossistema" ou "Estilização". A seção vai percorrer este array com <code>map</code> duas vezes, uma para os grupos e outra para os itens de cada grupo. Ajuste a lista ao que você realmente sabe usar.</p>
+<div class="file" data-path="src/data/habilidades.js"><script type="text/plain">
+// Habilidades agrupadas por categoria: a seção percorre os grupos e depois os itens.
+export const habilidades = [
+  {
+    categoria: 'Linguagens e base',
+    itens: ['HTML5', 'CSS3', 'JavaScript (ES6+)', 'TypeScript'],
+  },
+  {
+    categoria: 'React e ecossistema',
+    itens: ['React', 'Hooks', 'Redux Toolkit', 'React Router', 'Formik + Yup'],
+  },
+  {
+    categoria: 'Estilização',
+    itens: ['CSS Modules', 'Styled Components', 'SASS', 'Layout responsivo'],
+  },
+  {
+    categoria: 'Ferramentas',
+    itens: ['Git e GitHub', 'Vite', 'npm', 'Vercel', 'Figma'],
+  },
+]
+</script></div>
+
+<p class="explain">Para o projeto compilar desde já, criamos imagens provisórias em SVG (texto puro, dá para copiar). Este é o avatar da seção Sobre mim. Depois troque por uma foto sua: salve, por exemplo, <code>src/assets/foto.jpg</code> e mude o import em <code>Sobre.jsx</code> para esse arquivo. Uma foto quadrada de uns 400×400 px é suficiente.</p>
+<div class="file" data-path="src/assets/avatar.svg"><script type="text/plain">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#1e293b"/>
+  <circle cx="100" cy="80" r="38" fill="#38bdf8"/>
+  <path d="M30 200c6-44 36-70 70-70s64 26 70 70z" fill="#38bdf8"/>
+</svg>
+</script></div>
+
+<p class="explain">Esta é a captura provisória de um projeto: um desenho de navegador em proporção 16:9, a mesma usada pelo card. Salve como <code>efood.svg</code> e use o comando a seguir para criar as outras três cópias. O ideal é substituir cada uma pela captura de tela real do seu projeto (tecla <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> no Windows).</p>
+<div class="file" data-path="src/assets/projetos/efood.svg"><script type="text/plain">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <!-- Imagem provisória: troque pela captura de tela real do projeto -->
+  <rect width="640" height="360" fill="#1e293b"/>
+  <rect x="40" y="40" width="560" height="280" rx="12" fill="#f8fafc"/>
+  <rect x="40" y="40" width="560" height="36" rx="12" fill="#0284c7"/>
+  <circle cx="64" cy="58" r="6" fill="#f87171"/>
+  <circle cx="84" cy="58" r="6" fill="#fbbf24"/>
+  <circle cx="104" cy="58" r="6" fill="#4ade80"/>
+  <rect x="72" y="104" width="220" height="20" rx="4" fill="#0284c7"/>
+  <rect x="72" y="140" width="300" height="12" rx="4" fill="#cbd5e1"/>
+  <rect x="72" y="162" width="260" height="12" rx="4" fill="#cbd5e1"/>
+  <rect x="72" y="200" width="150" height="90" rx="8" fill="#bae6fd"/>
+  <rect x="238" y="200" width="150" height="90" rx="8" fill="#bae6fd"/>
+  <rect x="404" y="200" width="150" height="90" rx="8" fill="#bae6fd"/>
+</svg>
+</script></div>
+
+<p class="explain">Este comando cria as imagens dos outros três projetos copiando a primeira. Os nomes precisam ser exatamente os usados nos <code>import</code> de <code>projetos.js</code>; se um nome não bater, o build falha com "Could not resolve". Quando trocar por capturas reais em <code>.png</code>, lembre-se de mudar também a extensão no <code>import</code>.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Cria agenda.svg, landing.svg e tarefas.svg a partir de efood.svg
+"agenda", "landing", "tarefas" | ForEach-Object { Copy-Item src\assets\projetos\efood.svg "src\assets\projetos\$_.svg" }
+</script></div>
+
+<!-- ============ PASSO 4 ============ -->
+<h2 id="p4"><span class="num">6</span>Componentes reutilizáveis</h2>
+
+<p>Antes das seções, criamos as peças que elas vão compartilhar. É aqui que o critério "componentes, hooks e props sem repetições desnecessárias" é atendido.</p>
+
+<div class="diagram">
+  <div class="diagram-title">Por que separar dados e componentes</div>
+  <div class="compare">
+    <div class="bad"><h4>❌ HTML repetido em cada card</h4><ol><li>Copiar o mesmo <code>&lt;article&gt;</code> três vezes</li><li>Mudar o layout = editar três lugares</li><li>Adicionar um projeto = colar mais JSX</li></ol><div class="result">Código longo e fácil de ficar inconsistente</div></div>
+    <div class="good"><h4>✅ Um componente + um array</h4><ol><li><code>CardProjeto</code> recebe os dados por props</li><li><code>projetos.map(...)</code> cria um card por item</li><li>Adicionar um projeto = um objeto a mais</li></ol><div class="result">Layout em um lugar só, conteúdo em outro</div></div>
+  </div>
+</div>
+
+<p class="explain">A <code>Secao</code> é a moldura comum a Sobre, Projetos, Habilidades e Contato: aplica o <code>id</code> usado pelas âncoras do menu, o título <code>h2</code> e a largura máxima. O que muda de uma seção para outra chega pela prop <code>children</code>. O <code>aria-labelledby</code> liga a seção ao seu título, para o leitor de tela anunciar "região Projetos".</p>
+<div class="file" data-path="src/components/Secao/Secao.jsx"><script type="text/plain">
+import styles from './Secao.module.css'
+
+// Moldura comum a todas as seções: id para a âncora do menu, título e largura máxima.
+// "children" é o conteúdo que cada seção coloca dentro da moldura.
+export default function Secao({ id, titulo, children }) {
+  return (
+    <section id={id} className={styles.secao} aria-labelledby={`${id}-titulo`}>
+      <h2 id={`${id}-titulo`} className={styles.titulo}>
+        {titulo}
+      </h2>
+      {children}
+    </section>
+  )
+}
+</script></div>
+
+<p class="explain">O CSS Module da seção. Repare que as classes têm nomes simples, como <code>.titulo</code>: o Vite transforma cada uma num nome único no build, então outro arquivo pode ter a sua própria <code>.titulo</code> sem conflito. O <code>clamp()</code> faz o título crescer com a tela sem precisar de media query, e o <code>::after</code> desenha o traço azul abaixo dele.</p>
+<div class="file" data-path="src/components/Secao/Secao.module.css"><script type="text/plain">
+.secao {
+  max-width: var(--largura-max);
+  margin: 0 auto;
+  padding: 72px 16px;
+}
+
+.titulo {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 32px;
+}
+
+/* Traço decorativo abaixo do título */
+.titulo::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--cor-destaque);
+}
+</script></div>
+
+<p class="explain">A <code>Etiqueta</code> é a "pílula" usada tanto nas tecnologias de cada projeto quanto na lista de habilidades. É um componente minúsculo, mas evita escrever o mesmo estilo em dois lugares. Ele devolve um <code>&lt;li&gt;</code>, então sempre deve ser usado dentro de um <code>&lt;ul&gt;</code>, o que deixa a lista semântica para leitores de tela.</p>
+<div class="file" data-path="src/components/Etiqueta/Etiqueta.jsx"><script type="text/plain">
+import styles from './Etiqueta.module.css'
+
+// Etiqueta reutilizada nas tecnologias dos projetos e na lista de habilidades.
+export default function Etiqueta({ children }) {
+  return <li className={styles.etiqueta}>{children}</li>
+}
+</script></div>
+
+<p class="explain">Estilo da etiqueta: fundo azul transparente, borda e cantos totalmente arredondados com <code>border-radius: 999px</code>. O <code>list-style: none</code> remove a bolinha que o navegador coloca em todo <code>&lt;li&gt;</code>. As cores vêm das variáveis do <code>global.css</code> para manter o tema consistente em todo o site.</p>
+<div class="file" data-path="src/components/Etiqueta/Etiqueta.module.css"><script type="text/plain">
+.etiqueta {
+  list-style: none;
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--cor-destaque);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+</script></div>
+
+<p class="explain">O <code>CardProjeto</code> recebe cada campo do projeto por props (desestruturadas na assinatura) e monta imagem, título, descrição, tecnologias e links. Duas técnicas importantes aparecem aqui: <code>map</code> com <code>key</code> para listar as tecnologias e <b>renderização condicional</b> (<code>demo &amp;&amp; …</code>) para só mostrar "Ver online" quando existe demonstração.</p>
+<div class="file" data-path="src/components/CardProjeto/CardProjeto.jsx"><script type="text/plain">
+import Etiqueta from '../Etiqueta/Etiqueta'
+import styles from './CardProjeto.module.css'
+
+// Recebe um projeto por props e monta o card. Não sabe de onde os dados vêm:
+// quem decide a lista é a seção Projetos.
+export default function CardProjeto({ titulo, descricao, imagem, tecnologias, repositorio, demo }) {
+  return (
+    <article className={styles.card}>
+      {/* alt descreve a imagem para leitores de tela e quando ela não carrega */}
+      <img
+        src={imagem}
+        alt={`Captura de tela do projeto ${titulo}`}
+        className={styles.imagem}
+        loading="lazy"
+      />
+
+      <div className={styles.corpo}>
+        <h3 className={styles.titulo}>{titulo}</h3>
+        <p className={styles.descricao}>{descricao}</p>
+
+        <ul className={styles.tecnologias} aria-label="Tecnologias usadas">
+          {tecnologias.map((tecnologia) => (
+            <Etiqueta key={tecnologia}>{tecnologia}</Etiqueta>
+          ))}
+        </ul>
+
+        <div className={styles.links}>
+          {/* target="_blank" abre em outra aba; rel="noreferrer" impede a outra página de controlar esta */}
+          <a href={repositorio} target="_blank" rel="noreferrer" className={styles.botaoSecundario}>
+            Repositório
+          </a>
+          {/* Renderização condicional: só mostra o botão se existir demo */}
+          {demo && (
+            <a href={demo} target="_blank" rel="noreferrer" className={styles.botaoPrimario}>
+              Ver online
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+}
+</script></div>
+
+<p class="explain">O card é uma coluna flex. O <code>aspect-ratio: 16 / 9</code> com <code>object-fit: cover</code> deixa todas as imagens do mesmo tamanho, mesmo que as capturas tenham proporções diferentes. O <code>flex: 1</code> no corpo e o <code>margin-top: auto</code> nos links empurram os botões para o rodapé, alinhando os cards lado a lado mesmo com descrições de tamanhos diferentes.</p>
+<div class="file" data-path="src/components/CardProjeto/CardProjeto.module.css"><script type="text/plain">
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--cor-destaque);
+}
+
+.imagem {
+  width: 100%;
+  /* Mantém todas as imagens na mesma proporção, mesmo com capturas de tamanhos diferentes */
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.corpo {
+  /* Ocupa o espaço restante para os botões ficarem sempre no rodapé do card */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.descricao {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.tecnologias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.links {
+  margin-top: auto;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.botaoPrimario,
+.botaoSecundario {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.botaoPrimario {
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+}
+
+.botaoSecundario {
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+}
+</script></div>
+
+<!-- ============ PASSO 5 ============ -->
+<h2 id="p5"><span class="num">7</span>Navegação e cabeçalho</h2>
+
+<div class="diagram">
+  <div class="diagram-title">O que acontece ao clicar em "Projetos"</div>
+  <div class="flow">
+    <div class="step a"><b>Clique</b><small>link <code>href="#projetos"</code></small></div>
+    <div class="arrow">→</div>
+    <div class="step"><b>Navegador rola</b><small>suave, parando abaixo do header</small></div>
+    <div class="arrow">→</div>
+    <div class="step i"><b>IntersectionObserver</b><small>#projetos cruza o meio da tela</small></div>
+    <div class="arrow">→</div>
+    <div class="step i"><b>setAtiva('projetos')</b><small>estado do hook muda</small></div>
+    <div class="arrow">→</div>
+    <div class="step o"><b>Menu redesenha</b><small>link Projetos fica azul</small></div>
+  </div>
+  <p class="diagram-caption">A rolagem é do próprio navegador (âncora + CSS). O React só cuida de destacar o link certo, inclusive quando o usuário rola com o mouse.</p>
+</div>
+
+<p class="explain">Este hook personalizado descobre qual seção está no meio da tela. Ele usa <code>useState</code> para guardar o id ativo e <code>useEffect</code> para criar um <code>IntersectionObserver</code>, API do navegador que avisa quando um elemento entra numa área da tela. A função devolvida pelo efeito desliga o observador quando o componente sai da tela, evitando vazamento de memória.</p>
+<div class="file" data-path="src/hooks/useSecaoAtiva.js"><script type="text/plain">
+import { useEffect, useState } from 'react'
+
+// Hook personalizado: devolve o id da seção que está no meio da tela.
+// O cabeçalho usa esse valor para destacar o link correspondente no menu.
+export function useSecaoAtiva(ids) {
+  const [ativa, setAtiva] = useState(ids[0])
+
+  useEffect(() => {
+    // O IntersectionObserver avisa quando um elemento entra/sai de uma área da tela,
+    // sem precisar escutar o evento de scroll a cada pixel.
+    const observer = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting) setAtiva(entrada.target.id)
+        })
+      },
+      // Reduz a área observada a uma faixa fina no meio da tela:
+      // só uma seção por vez cruza essa faixa.
+      { rootMargin: '-50% 0px -50% 0px' },
+    )
+
+    ids.forEach((id) => {
+      const elemento = document.getElementById(id)
+      if (elemento) observer.observe(elemento)
+    })
+
+    // Limpeza: ao desmontar o componente, para de observar (evita vazamento de memória)
+    return () => observer.disconnect()
+  }, [ids])
+
+  return ativa
+}
+</script></div>
+
+<p class="explain">O cabeçalho monta o menu a partir do array <code>secoes</code>, usa o hook para destacar o link ativo e guarda em <code>useState</code> se o menu do celular está aberto. A lista de <code>ids</code> é criada fora do componente de propósito: se fosse criada dentro, seria um array novo a cada render e o <code>useEffect</code> do hook recriaria o observador toda hora.</p>
+<div class="file" data-path="src/components/Cabecalho/Cabecalho.jsx"><script type="text/plain">
+import { useState } from 'react'
+import { perfil, secoes } from '../../data/perfil'
+import { useSecaoAtiva } from '../../hooks/useSecaoAtiva'
+import styles from './Cabecalho.module.css'
+
+// Lista de ids fora do componente: é a mesma referência em todo render,
+// então o useEffect do hook não roda de novo à toa.
+const ids = secoes.map((secao) => secao.id)
+
+export default function Cabecalho() {
+  // Controla o menu no celular (aberto/fechado)
+  const [menuAberto, setMenuAberto] = useState(false)
+  const secaoAtiva = useSecaoAtiva(ids)
+
+  return (
+    <header className={styles.cabecalho}>
+      <div className={styles.conteudo}>
+        <a href="#inicio" className={styles.logo}>
+          {perfil.nome}
+        </a>
+
+        {/* Botão "hambúrguer": só aparece no celular (ver CSS) */}
+        <button
+          type="button"
+          className={styles.botaoMenu}
+          aria-expanded={menuAberto}
+          aria-controls="menu-principal"
+          aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
+          onClick={() => setMenuAberto(!menuAberto)}
+        >
+          {menuAberto ? '✕' : '☰'}
+        </button>
+
+        {/* A classe "aberto" é somada só quando o menu está aberto */}
+        <nav
+          id="menu-principal"
+          aria-label="Seções do portfólio"
+          className={`${styles.menu} ${menuAberto ? styles.aberto : ''}`}
+        >
+          {secoes.map((secao) => (
+            <a
+              key={secao.id}
+              href={`#${secao.id}`}
+              className={secaoAtiva === secao.id ? styles.ativo : undefined}
+              // aria-current avisa leitores de tela qual é a seção atual
+              aria-current={secaoAtiva === secao.id ? 'true' : undefined}
+              // Ao escolher uma seção no celular, o menu fecha sozinho
+              onClick={() => setMenuAberto(false)}
+            >
+              {secao.rotulo}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+  )
+}
+</script></div>
+
+<div class="diagram">
+  <div class="diagram-title">Menu responsivo</div>
+  <div class="wires">
+    <div>
+      <div class="wire" style="width:130px"><div class="bar">Nome &nbsp;&nbsp;&nbsp; ☰</div><div class="grid"><div class="blk p" style="height:70px">menu aberto<br>(coluna)</div><div class="blk c" style="height:50px">seção</div></div></div>
+      <div class="wire-label">celular (até 720px)</div>
+    </div>
+    <div>
+      <div class="wire" style="width:280px"><div class="bar">Nome &nbsp;&nbsp; Início · Sobre · Projetos · …</div><div class="grid"><div class="blk c" style="height:120px">seção</div></div></div>
+      <div class="wire-label">desktop</div>
+    </div>
+  </div>
+</div>
+
+<p class="explain">O cabeçalho usa <code>position: sticky</code> para ficar preso no topo. No desktop o menu é uma linha; abaixo de 720px o botão hambúrguer aparece e o menu vira uma coluna escondida, que só ganha <code>display: flex</code> quando o React soma a classe <code>aberto</code>. É assim que estado (React) e estilo (CSS Module) conversam.</p>
+<div class="file" data-path="src/components/Cabecalho/Cabecalho.module.css"><script type="text/plain">
+.cabecalho {
+  /* Fica preso no topo enquanto a página rola */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--altura-header);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.conteudo {
+  max-width: var(--largura-max);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.botaoMenu {
+  display: none;
+  background: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  color: var(--cor-texto);
+  font-size: 1.3rem;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  gap: 4px;
+}
+
+.menu a {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.menu a:hover {
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+}
+
+/* Link da seção visível no momento */
+.menu a.ativo {
+  color: var(--cor-destaque);
+}
+
+/* Celular: o menu vira uma lista que desce abaixo do cabeçalho */
+@media (max-width: 720px) {
+  .botaoMenu {
+    display: block;
+  }
+
+  .menu {
+    display: none;
+    position: absolute;
+    top: var(--altura-header);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    padding: 8px 16px 16px;
+    background: var(--cor-fundo);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .menu.aberto {
+    display: flex;
+  }
+
+  .menu a {
+    padding: 12px;
+  }
+}
+</script></div>
+
+<!-- ============ PASSO 6 ============ -->
+<h2 id="p6"><span class="num">8</span>Seções Início e Sobre mim</h2>
+
+<p class="explain">O Início é a página inicial com o resumo profissional pedido no enunciado. Ele não usa a <code>Secao</code> porque não tem título <code>h2</code>: o nome é o único <code>h1</code> da página, o assunto principal do site. Os dois botões são âncoras para Projetos e Contato, os dois lugares onde um recrutador mais quer chegar.</p>
+<div class="file" data-path="src/sections/Inicio/Inicio.jsx"><script type="text/plain">
+import { perfil } from '../../data/perfil'
+import styles from './Inicio.module.css'
+
+// Página inicial (hero): primeira coisa que o recrutador vê. Nome, cargo, resumo e chamadas.
+export default function Inicio() {
+  return (
+    <section id="inicio" className={styles.inicio}>
+      <p className={styles.saudacao}>Olá, eu sou</p>
+      {/* Único h1 da página: o nome é o assunto principal do site */}
+      <h1 className={styles.nome}>{perfil.nome}</h1>
+      <p className={styles.cargo}>{perfil.cargo}</p>
+      <p className={styles.resumo}>{perfil.resumo}</p>
+
+      <div className={styles.acoes}>
+        <a href="#projetos" className={styles.botaoPrimario}>
+          Ver projetos
+        </a>
+        <a href="#contato" className={styles.botaoSecundario}>
+          Fale comigo
+        </a>
+      </div>
+    </section>
+  )
+}
+</script></div>
+
+<p class="explain">O <code>min-height</code> faz o Início ocupar a primeira tela inteira, descontando a altura do cabeçalho, e o flex centraliza o conteúdo na vertical. O nome usa <code>clamp()</code> para ir de 2.4rem no celular até 4.5rem no desktop sem quebrar o layout, e os botões usam <code>flex-wrap</code> para descer de linha em telas estreitas.</p>
+<div class="file" data-path="src/sections/Inicio/Inicio.module.css"><script type="text/plain">
+.inicio {
+  max-width: var(--largura-max);
+  /* Ocupa quase a tela toda, descontando o cabeçalho */
+  min-height: calc(100vh - var(--altura-header));
+  margin: 0 auto;
+  padding: 48px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.saudacao {
+  margin: 0;
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+.nome {
+  margin: 4px 0;
+  /* clamp(mínimo, ideal, máximo): o tamanho acompanha a largura da tela */
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.cargo {
+  margin: 0 0 16px;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--cor-texto-suave);
+}
+
+.resumo {
+  max-width: 640px;
+  margin: 0 0 32px;
+  font-size: 1.1rem;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.botaoPrimario,
+.botaoSecundario {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.botaoPrimario {
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+}
+
+.botaoPrimario:hover {
+  background: var(--cor-destaque-escura);
+}
+
+.botaoSecundario {
+  border: 1px solid var(--cor-destaque);
+  color: var(--cor-destaque);
+}
+</script></div>
+
+<p class="explain">Sobre mim reúne apresentação, foto e informações de contato, como pede o enunciado. Os parágrafos vêm de <code>perfil.sobre</code> com <code>map</code>, e os contatos usam <code>&lt;dl&gt;</code> (lista de definições), a tag certa para pares rótulo/valor. O texto alternativo da foto é montado com o nome, então continua correto se você trocar o nome no perfil.</p>
+<div class="file" data-path="src/sections/Sobre/Sobre.jsx"><script type="text/plain">
+import Secao from '../../components/Secao/Secao'
+import { perfil } from '../../data/perfil'
+import foto from '../../assets/avatar.svg'
+import styles from './Sobre.module.css'
+
+export default function Sobre() {
+  return (
+    <Secao id="sobre" titulo="Sobre mim">
+      <div className={styles.grade}>
+        <img src={foto} alt={`Foto de ${perfil.nome}`} className={styles.foto} />
+
+        <div>
+          {/* Um parágrafo por item do array: o texto fica no arquivo de dados */}
+          {perfil.sobre.map((paragrafo) => (
+            <p key={paragrafo}>{paragrafo}</p>
+          ))}
+
+          {/* <dl> = lista de pares "rótulo: valor", ideal para dados de contato */}
+          <dl className={styles.contatos}>
+            <dt>Localização</dt>
+            <dd>{perfil.localizacao}</dd>
+            <dt>E-mail</dt>
+            <dd>
+              <a href={`mailto:${perfil.email}`}>{perfil.email}</a>
+            </dd>
+            <dt>GitHub</dt>
+            <dd>
+              <a href={perfil.github} target="_blank" rel="noreferrer">
+                {perfil.github.replace('https://', '')}
+              </a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </Secao>
+  )
+}
+</script></div>
+
+<p class="explain">No celular a grade tem uma coluna (foto centralizada em cima, texto embaixo); a partir de 768px vira duas colunas. Esta é a abordagem <b>mobile first</b>: o estilo padrão é o do celular e a media query só acrescenta o layout de desktop. O <code>overflow-wrap: anywhere</code> quebra links longos e evita rolagem horizontal.</p>
+<div class="file" data-path="src/sections/Sobre/Sobre.module.css"><script type="text/plain">
+.grade {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+.foto {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--cor-destaque);
+  /* No celular a foto fica centralizada acima do texto */
+  justify-self: center;
+}
+
+.contatos {
+  display: grid;
+  /* Coluna do rótulo do tamanho do conteúdo, coluna do valor com o resto */
+  grid-template-columns: max-content 1fr;
+  gap: 8px 16px;
+  margin: 24px 0 0;
+  padding: 16px;
+  background: var(--cor-superficie);
+  border-radius: var(--raio);
+}
+
+.contatos dt {
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+.contatos dd {
+  margin: 0;
+  /* Quebra links longos em vez de criar rolagem horizontal no celular */
+  overflow-wrap: anywhere;
+}
+
+/* Desktop: foto à esquerda, texto à direita */
+@media (min-width: 768px) {
+  .grade {
+    grid-template-columns: 220px 1fr;
+  }
+}
+</script></div>
+
+<!-- ============ PASSO 7 ============ -->
+<h2 id="p7"><span class="num">9</span>Seções Projetos e Habilidades</h2>
+
+<p class="explain">A seção Projetos fica curta porque o trabalho pesado está no <code>CardProjeto</code> e nos dados. O <code>{...projeto}</code> (spread) passa cada campo do objeto como uma prop: é o mesmo que escrever <code>titulo={projeto.titulo}</code>, <code>descricao={projeto.descricao}</code> e assim por diante. A <code>key</code> usa o <code>id</code> do projeto, que é único e estável.</p>
+<div class="file" data-path="src/sections/Projetos/Projetos.jsx"><script type="text/plain">
+import Secao from '../../components/Secao/Secao'
+import CardProjeto from '../../components/CardProjeto/CardProjeto'
+import { projetos } from '../../data/projetos'
+import styles from './Projetos.module.css'
+
+export default function Projetos() {
+  return (
+    <Secao id="projetos" titulo="Projetos">
+      <div className={styles.grade}>
+        {/* {...projeto} espalha cada campo do objeto como uma prop do card */}
+        {projetos.map((projeto) => (
+          <CardProjeto key={projeto.id} {...projeto} />
+        ))}
+      </div>
+    </Secao>
+  )
+}
+</script></div>
+
+<div class="diagram">
+  <div class="diagram-title">Grade automática dos cards</div>
+  <div class="wires">
+    <div>
+      <div class="wire" style="width:110px"><div class="bar">Projetos</div><div class="grid"><div class="blk c" style="height:40px">card</div><div class="blk c" style="height:40px">card</div><div class="blk c" style="height:40px">card</div></div></div>
+      <div class="wire-label">celular: 1 coluna</div>
+    </div>
+    <div>
+      <div class="wire" style="width:300px"><div class="bar">Projetos</div><div class="grid" style="grid-template-columns:1fr 1fr 1fr"><div class="blk c" style="height:50px">card</div><div class="blk c" style="height:50px">card</div><div class="blk c" style="height:50px">card</div><div class="blk c" style="height:50px">card</div></div></div>
+      <div class="wire-label">desktop: 3 colunas</div>
+    </div>
+  </div>
+</div>
+
+<p class="explain">Uma linha de CSS resolve a responsividade da grade: <code>repeat(auto-fill, minmax(300px, 1fr))</code> coloca quantas colunas de pelo menos 300px couberem. O <code>min(300px, 100%)</code> garante que, num celular muito estreito, a coluna nunca passe da largura da tela e crie rolagem horizontal.</p>
+<div class="file" data-path="src/sections/Projetos/Projetos.module.css"><script type="text/plain">
+.grade {
+  display: grid;
+  /* Quantas colunas couberem com no mínimo 300px cada: 1 no celular, 2 ou 3 no desktop.
+     O min(300px, 100%) evita estourar a tela em celulares com menos de 300px de conteúdo. */
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 24px;
+}
+</script></div>
+
+<p class="explain">Habilidades percorre os grupos e, dentro de cada grupo, os itens: um <code>map</code> dentro de outro. Cada nível tem a sua <code>key</code> (o nome da categoria e o nome do item). A mesma <code>Etiqueta</code> dos cards de projeto é reaproveitada aqui, então as duas seções ficam visualmente coerentes sem duplicar estilo.</p>
+<div class="file" data-path="src/sections/Habilidades/Habilidades.jsx"><script type="text/plain">
+import Secao from '../../components/Secao/Secao'
+import Etiqueta from '../../components/Etiqueta/Etiqueta'
+import { habilidades } from '../../data/habilidades'
+import styles from './Habilidades.module.css'
+
+export default function Habilidades() {
+  return (
+    <Secao id="habilidades" titulo="Habilidades">
+      <div className={styles.grade}>
+        {/* map dentro de map: primeiro os grupos, depois os itens de cada grupo */}
+        {habilidades.map((grupo) => (
+          <div key={grupo.categoria} className={styles.grupo}>
+            <h3 className={styles.categoria}>{grupo.categoria}</h3>
+            <ul className={styles.lista}>
+              {grupo.itens.map((item) => (
+                <Etiqueta key={item}>{item}</Etiqueta>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Secao>
+  )
+}
+</script></div>
+
+<p class="explain">Os grupos usam a mesma técnica de grade automática dos projetos, com mínimo de 240px por coluna: quatro colunas no desktop largo, duas em tablets e uma no celular. Cada grupo é um bloco com fundo de superfície e borda, e a lista interna usa <code>flex-wrap</code> para as etiquetas quebrarem de linha.</p>
+<div class="file" data-path="src/sections/Habilidades/Habilidades.module.css"><script type="text/plain">
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: 20px;
+}
+
+.grupo {
+  padding: 20px;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+.categoria {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+</script></div>
+
+<!-- ============ PASSO 8 ============ -->
+<h2 id="p8"><span class="num">10</span>Seção Contato e rodapé</h2>
+
+<div class="diagram">
+  <div class="diagram-title">Como o estado do formulário evolui</div>
+  <div class="flow">
+    <div class="step"><b>início</b><div class="state">campos vazios<br>erros {}</div></div>
+    <div class="arrow">→</div>
+    <div class="step a"><b>Enviar vazio</b><div class="state">erros {nome, email, mensagem}</div></div>
+    <div class="arrow">→</div>
+    <div class="step i"><b>Corrigir e enviar</b><div class="state">erros {}<br>abre mailto:</div></div>
+    <div class="arrow">→</div>
+    <div class="step o"><b>Sucesso</b><div class="state">enviado true<br>campos vazios</div></div>
+  </div>
+  <p class="diagram-caption">Três estados (<code>campos</code>, <code>erros</code>, <code>enviado</code>) descrevem tudo o que a tela mostra.</p>
+</div>
+
+<p class="explain">O formulário é <b>controlado</b>: cada campo mostra o valor guardado em <code>useState</code> e avisa o React a cada tecla. Ao enviar, a função <code>validar</code> devolve os erros; se não houver nenhum, o código monta um link <code>mailto:</code> com assunto e mensagem e abre o programa de e-mail do visitante. Assim o formulário funciona de verdade sem precisar de back-end.</p>
+<div class="file" data-path="src/components/FormularioContato/FormularioContato.jsx"><script type="text/plain">
+import { useState } from 'react'
+import { perfil } from '../../data/perfil'
+import styles from './FormularioContato.module.css'
+
+const vazio = { nome: '', email: '', mensagem: '' }
+
+// Regras de validação separadas do componente: função pura, fácil de ler e testar.
+function validar(campos) {
+  const erros = {}
+  if (campos.nome.trim().length < 2) erros.nome = 'Informe seu nome.'
+  // Formato mínimo de e-mail: algo@algo.algo
+  if (!/^\S+@\S+\.\S+$/.test(campos.email)) erros.email = 'Informe um e-mail válido.'
+  if (campos.mensagem.trim().length < 10) erros.mensagem = 'A mensagem precisa ter pelo menos 10 caracteres.'
+  return erros
+}
+
+export default function FormularioContato() {
+  // Formulário controlado: o React guarda o valor de cada campo no estado
+  const [campos, setCampos] = useState(vazio)
+  const [erros, setErros] = useState({})
+  const [enviado, setEnviado] = useState(false)
+
+  // Um único handler para todos os campos: usa o "name" do input como chave
+  function aoDigitar(evento) {
+    const { name, value } = evento.target
+    setCampos({ ...campos, [name]: value })
+  }
+
+  function aoEnviar(evento) {
+    // Sem isso o navegador recarregaria a página ao enviar o formulário
+    evento.preventDefault()
+
+    const novosErros = validar(campos)
+    setErros(novosErros)
+    if (Object.keys(novosErros).length > 0) {
+      setEnviado(false)
+      return
+    }
+
+    // Sem back-end: monta um link mailto: e abre o programa de e-mail do visitante.
+    // encodeURIComponent troca espaços, acentos e quebras de linha por códigos válidos na URL.
+    const assunto = encodeURIComponent(`Contato pelo portfólio - ${campos.nome}`)
+    const corpo = encodeURIComponent(`${campos.mensagem}\n\n${campos.nome} (${campos.email})`)
+    window.location.href = `mailto:${perfil.email}?subject=${assunto}&body=${corpo}`
+
+    setEnviado(true)
+    setCampos(vazio)
+  }
+
+  return (
+    // noValidate desliga os balões nativos do navegador: quem valida é o React
+    <form className={styles.formulario} onSubmit={aoEnviar} noValidate>
+      <label className={styles.campo}>
+        Nome
+        <input
+          name="nome"
+          value={campos.nome}
+          onChange={aoDigitar}
+          autoComplete="name"
+          aria-invalid={Boolean(erros.nome)}
+        />
+        {erros.nome && <span className={styles.erro}>{erros.nome}</span>}
+      </label>
+
+      <label className={styles.campo}>
+        E-mail
+        <input
+          name="email"
+          type="email"
+          value={campos.email}
+          onChange={aoDigitar}
+          autoComplete="email"
+          aria-invalid={Boolean(erros.email)}
+        />
+        {erros.email && <span className={styles.erro}>{erros.email}</span>}
+      </label>
+
+      <label className={styles.campo}>
+        Mensagem
+        <textarea
+          name="mensagem"
+          rows="5"
+          value={campos.mensagem}
+          onChange={aoDigitar}
+          aria-invalid={Boolean(erros.mensagem)}
+        />
+        {erros.mensagem && <span className={styles.erro}>{erros.mensagem}</span>}
+      </label>
+
+      <button type="submit" className={styles.botao}>
+        Enviar mensagem
+      </button>
+
+      {/* role="status" faz o leitor de tela anunciar a mensagem quando ela aparece */}
+      <p role="status" className={styles.sucesso}>
+        {enviado && 'Seu programa de e-mail foi aberto com a mensagem pronta. É só enviar!'}
+      </p>
+    </form>
+  )
+}
+</script></div>
+
+<div class="callout tip">
+  <strong>Quer receber as mensagens sem depender do e-mail do visitante?</strong>
+  <p>Serviços gratuitos como Formspree ou EmailJS recebem o formulário e mandam para o seu e-mail. Para usar, troque a linha do <code>window.location.href</code> por um <code>fetch</code> para o endereço que o serviço fornecer. Não é obrigatório para a entrega.</p>
+</div>
+
+<p class="explain">Estilo do formulário. O seletor <code>[aria-invalid='true']</code> pinta de vermelho a borda dos campos que o React marcou como inválidos: o mesmo atributo que avisa o leitor de tela também controla o visual, sem precisar de uma classe extra. O <code>resize: vertical</code> deixa o visitante aumentar a caixa de mensagem só na altura.</p>
+<div class="file" data-path="src/components/FormularioContato/FormularioContato.module.css"><script type="text/plain">
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.campo input,
+.campo textarea {
+  font: inherit;
+  font-weight: 400;
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 10px 12px;
+  /* Só deixa redimensionar a altura, nunca a largura */
+  resize: vertical;
+}
+
+/* Borda vermelha nos campos marcados como inválidos pelo React */
+.campo [aria-invalid='true'] {
+  border-color: var(--cor-erro);
+}
+
+.erro {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--cor-erro);
+}
+
+.botao {
+  align-self: flex-start;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-destaque);
+  color: var(--cor-fundo);
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--cor-destaque-escura);
+}
+
+.sucesso {
+  margin: 0;
+  color: var(--cor-sucesso);
+}
+</script></div>
+
+<p class="explain">A seção Contato junta o formulário e os links para redes profissionais (o enunciado aceita um ou outro; ter os dois é melhor). O array <code>redes</code> é montado a partir do <code>perfil</code>, então o endereço do LinkedIn e do GitHub continua escrito num lugar só. Os links externos abrem em nova aba com <code>rel="noreferrer"</code>.</p>
+<div class="file" data-path="src/sections/Contato/Contato.jsx"><script type="text/plain">
+import Secao from '../../components/Secao/Secao'
+import FormularioContato from '../../components/FormularioContato/FormularioContato'
+import { perfil } from '../../data/perfil'
+import styles from './Contato.module.css'
+
+// Redes montadas a partir do perfil: o link é escrito uma vez só, em data/perfil.js
+const redes = [
+  { nome: 'LinkedIn', url: perfil.linkedin },
+  { nome: 'GitHub', url: perfil.github },
+  { nome: 'E-mail', url: `mailto:${perfil.email}` },
+]
+
+export default function Contato() {
+  return (
+    <Secao id="contato" titulo="Contato">
+      <div className={styles.grade}>
+        <div>
+          <p>
+            Está procurando alguém para o seu time ou quer conversar sobre um projeto? Mande uma
+            mensagem ou me encontre nas redes abaixo.
+          </p>
+          <ul className={styles.redes}>
+            {redes.map((rede) => (
+              <li key={rede.nome}>
+                <a href={rede.url} target="_blank" rel="noreferrer">
+                  {rede.nome}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <FormularioContato />
+      </div>
+    </Secao>
+  )
+}
+</script></div>
+
+<p class="explain">No celular, texto e formulário ficam um embaixo do outro; a partir de 768px viram duas colunas, com o formulário um pouco mais largo (<code>1.4fr</code>). Os links das redes são botões com borda que mudam de cor no <code>:hover</code>, deixando claro que são clicáveis.</p>
+<div class="file" data-path="src/sections/Contato/Contato.module.css"><script type="text/plain">
+.grade {
+  display: grid;
+  gap: 32px;
+}
+
+.redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.redes a {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.redes a:hover {
+  border-color: var(--cor-destaque);
+  color: var(--cor-destaque);
+}
+
+/* Desktop: texto e redes à esquerda, formulário à direita */
+@media (min-width: 768px) {
+  .grade {
+    grid-template-columns: 1fr 1.4fr;
+  }
+}
+</script></div>
+
+<p class="explain">O rodapé mostra o ano atual e o nome. O cálculo do ano fica <b>fora</b> do componente: o React espera que a função do componente seja pura (mesmas props, mesmo resultado), e o oxlint avisa quando você chama <code>new Date()</code> durante o render. Fora dele, o valor é calculado uma vez ao carregar a página.</p>
+<div class="file" data-path="src/components/Rodape/Rodape.jsx"><script type="text/plain">
+import { perfil } from '../../data/perfil'
+import styles from './Rodape.module.css'
+
+// Ano calculado ao carregar a página: o rodapé não fica desatualizado em janeiro.
+// Fica fora do componente porque o render deve ser "puro" (mesmas props, mesmo resultado).
+const ano = new Date().getFullYear()
+
+export default function Rodape() {
+  return (
+    <footer className={styles.rodape}>
+      <p>
+        © {ano} {perfil.nome} · Feito com React e Vite
+      </p>
+    </footer>
+  )
+}
+</script></div>
+
+<p class="explain">Estilo do rodapé: texto pequeno, centralizado, na cor suave e com uma linha separando do conteúdo. O <code>margin: 0</code> no parágrafo remove a margem padrão que o navegador coloca em todo <code>&lt;p&gt;</code>, deixando o espaçamento controlado só pelo <code>padding</code> do rodapé.</p>
+<div class="file" data-path="src/components/Rodape/Rodape.module.css"><script type="text/plain">
+.rodape {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.rodape p {
+  margin: 0;
+}
+</script></div>
+
+<!-- ============ PASSO 9 ============ -->
+<h2 id="p9"><span class="num">11</span>Montar o App</h2>
+
+<p class="explain">Por fim, o <code>App.jsx</code> (substitua todo o conteúdo do arquivo do modelo). Ele não tem lógica nem estilo: só importa as peças e define a ordem da página. O <code>&lt;main&gt;</code> marca o conteúdo principal para leitores de tela, e o fragmento <code>&lt;&gt;…&lt;/&gt;</code> agrupa cabeçalho, main e rodapé sem criar uma <code>div</code> a mais.</p>
+<div class="file" data-path="src/App.jsx"><script type="text/plain">
+import Cabecalho from './components/Cabecalho/Cabecalho'
+import Rodape from './components/Rodape/Rodape'
+import Inicio from './sections/Inicio/Inicio'
+import Sobre from './sections/Sobre/Sobre'
+import Projetos from './sections/Projetos/Projetos'
+import Habilidades from './sections/Habilidades/Habilidades'
+import Contato from './sections/Contato/Contato'
+
+// App só organiza a página: a ordem das seções aqui é a ordem na tela.
+export default function App() {
+  return (
+    <>
+      <Cabecalho />
+      <main>
+        <Inicio />
+        <Sobre />
+        <Projetos />
+        <Habilidades />
+        <Contato />
+      </main>
+      <Rodape />
+    </>
+  )
+}
+</script></div>
+
+<div class="diagram">
+  <div class="diagram-title">Camadas da página</div>
+  <div class="nest"><span class="lbl">App</span>
+    <div class="nest"><span class="lbl">&lt;main&gt; → Projetos</span>
+      <div class="nest"><span class="lbl">Secao id="projetos" → CardProjeto (×4) → Etiqueta (×n)</span></div>
+    </div>
+  </div>
+</div>
+
+<p class="explain">Agora o projeto está completo e pode rodar. O <code>npm run dev</code> sobe o servidor de desenvolvimento do Vite, que recarrega a página sozinho a cada arquivo salvo. Abra o endereço mostrado no terminal (normalmente <code>http://localhost:5173</code>) e deixe o servidor rodando enquanto faz os testes da próxima seção.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Sobe o servidor de desenvolvimento (Ctrl+C para parar)
+npm run dev
+</script></div>
+
+<!-- ============ TESTES ============ -->
+<h2 id="testes"><span class="num">12</span>Rodar e testar</h2>
+<p>Com o <code>npm run dev</code> rodando, abra <code>http://localhost:5173</code> e o DevTools (<kbd>F12</kbd>). Para simular o celular, use o modo de dispositivo (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>) com largura 375.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Teste</th><th>Onde</th><th>Resultado esperado</th></tr></thead>
+  <tbody>
+    <tr><td>Página inicial</td><td>abrir o site</td><td>Aba "Seu Nome | Desenvolvedor Front-end"; título grande "Seu Nome" e botões <b>Ver projetos</b> e <b>Fale comigo</b>. Link <b>Início</b> azul no menu</td></tr>
+    <tr><td>Navegação</td><td>menu → Projetos</td><td>Rola suave até "Projetos", título visível logo abaixo do cabeçalho; URL termina em <code>#projetos</code>; link Projetos fica azul</td></tr>
+    <tr><td>Destaque ao rolar</td><td>rolar com o mouse até Habilidades</td><td>O link azul muda sozinho para <b>Habilidades</b></td></tr>
+    <tr><td>Projetos</td><td>seção Projetos</td><td>4 cards com imagem; 4 botões "Repositório" e 3 "Ver online" (o de jQuery não tem demo); links abrem em nova aba</td></tr>
+    <tr><td>Habilidades</td><td>seção Habilidades</td><td>4 grupos, 18 etiquetas no total</td></tr>
+    <tr><td>Formulário vazio</td><td>Contato → Enviar mensagem</td><td>3 mensagens vermelhas: "Informe seu nome.", "Informe um e-mail válido." e "A mensagem precisa ter pelo menos 10 caracteres."; bordas vermelhas</td></tr>
+    <tr><td>E-mail inválido</td><td>nome "Maria Souza", e-mail <code>maria@</code>, mensagem com 10+ letras</td><td>Só aparece "Informe um e-mail válido."</td></tr>
+    <tr><td>Envio válido</td><td>corrigir e-mail para <code>maria@email.com</code></td><td>Abre o programa de e-mail com assunto "Contato pelo portfólio - Maria Souza"; campos limpam; mensagem verde de sucesso</td></tr>
+    <tr><td>Celular</td><td>DevTools, 375px</td><td>Sem barra de rolagem horizontal; menu escondido e botão ☰ visível</td></tr>
+    <tr><td>Menu do celular</td><td>☰ → Projetos</td><td>Menu abre em coluna (botão vira ✕), rola até Projetos e fecha sozinho</td></tr>
+    <tr><td>Console</td><td>DevTools → Console</td><td>Nenhum erro ou aviso vermelho/amarelo</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============ BUILD ============ -->
+<h2 id="build"><span class="num">13</span>Build de produção</h2>
+<p class="explain">O build gera a versão otimizada que vai para o ar: o Vite junta e minifica JS e CSS na pasta <code>dist/</code>, renomeia as classes dos CSS Modules e confere se todo <code>import</code> existe. Rode o <code>lint</code> antes, para pegar erros de React (como hooks fora de lugar), e o <code>preview</code> depois, para ver exatamente o que a Vercel vai publicar.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Verifica o código (deve terminar sem warnings nem errors)
+npm run lint
+
+# Gera a pasta dist/ (deve terminar com "✓ built in ...")
+npm run build
+
+# Serve o dist/ localmente em http://localhost:4173 (Ctrl+C para parar)
+npm run preview
+</script></div>
+<p class="note">Repita no <code>preview</code> os testes de navegação e formulário da seção anterior. A pasta <code>dist/</code> não vai para o GitHub (está no <code>.gitignore</code>): a Vercel gera a dela.</p>
+
+<!-- ============ README ============ -->
+<h2 id="readme"><span class="num">14</span>README.md</h2>
+<p class="explain">O README é a porta de entrada do repositório e um entregável avaliado: precisa explicar como rodar localmente, trazer o link da versão online e descrever os projetos apresentados. Substitua o README gerado pelo Vite por este e troque os dados de exemplo pelos seus. O link do deploy só existe depois do passo da Vercel; por enquanto deixe o endereço provisório e atualize no final.</p>
+<div class="file" data-path="README.md"><script type="text/plain">
+# Portfólio — Seu Nome
+
+Portfólio profissional desenvolvido em React como projeto final do curso de Front-end da EBAC. Reúne meus principais projetos, habilidades e formas de contato.
+
+🔗 **Versão online:** https://seu-portfolio.vercel.app
+
+## Seções
+
+- **Início:** resumo profissional e atalhos para projetos e contato
+- **Sobre mim:** apresentação, foto e informações de contato
+- **Projetos:** projetos do curso com descrição, tecnologias, imagem e links
+- **Habilidades:** tecnologias e competências agrupadas por área
+- **Contato:** formulário com validação e links para redes profissionais
+
+## Tecnologias
+
+- React 19 (componentes, props, `useState`, `useEffect` e hook personalizado)
+- Vite 8
+- CSS Modules (estilização modular por componente)
+- Oxlint
+- Deploy na Vercel
+
+## Projetos apresentados
+
+| Projeto | Descrição | Tecnologias |
+| --- | --- | --- |
+| eFood | Delivery de restaurantes com carrinho e checkout em etapas | React, TypeScript, Redux Toolkit, Styled Components, Formik |
+| Agenda de contatos | CRUD de contatos com edição e filtro | React, Redux, TypeScript, Styled Components |
+| Landing page responsiva | Página de produto mobile first com build automatizado | HTML, SASS, Gulp, JavaScript |
+| Lista de tarefas | Lista com adição, conclusão e remoção de tarefas | HTML, CSS, jQuery |
+
+## Como rodar localmente
+
+Pré-requisito: [Node.js](https://nodejs.org) 20.19 ou mais novo.
+
+```bash
+# Clonar o repositório
+git clone https://github.com/seu-usuario/ebac-portfolio.git
+cd ebac-portfolio
+
+# Instalar as dependências
+npm install
+
+# Rodar em desenvolvimento (http://localhost:5173)
+npm run dev
+
+# Gerar e visualizar o build de produção (http://localhost:4173)
+npm run build
+npm run preview
+```
+
+## Estrutura
+
+```
+src/
+├── assets/       # foto e capturas de tela
+├── components/   # componentes reutilizáveis (Cabecalho, CardProjeto, Secao...)
+├── data/         # conteúdo: perfil, projetos e habilidades
+├── hooks/        # useSecaoAtiva (destaca a seção visível no menu)
+├── sections/     # Inicio, Sobre, Projetos, Habilidades, Contato
+└── styles/       # CSS global (variáveis e reset)
+```
+
+Para adicionar um projeto, inclua um objeto em `src/data/projetos.js` e a imagem em `src/assets/projetos/`.
+
+## Contato
+
+- LinkedIn: https://www.linkedin.com/in/seu-usuario
+- E-mail: seuemail@exemplo.com
+</script></div>
+
+<!-- ============ GITHUB ============ -->
+<h2 id="github"><span class="num">15</span>Publicar no GitHub</h2>
+<p class="explain">Antes, crie no GitHub um repositório <b>público</b> e <b>vazio</b> (sem README, sem .gitignore, para não dar conflito com o seu), por exemplo <code>ebac-portfolio</code>. Os comandos abaixo transformam a pasta num repositório git, fazem o primeiro commit e enviam para o GitHub. Troque <code>seu-usuario</code> pelo seu usuário em todos os lugares.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Inicia o repositório com a branch principal chamada main
+git init -b main
+
+# Confere o que vai entrar: NÃO deve aparecer node_modules/ nem dist/
+git status
+
+# Adiciona tudo e cria o primeiro commit
+git add .
+git commit -m "feat: portfólio em React com CSS Modules"
+
+# Liga a pasta ao repositório do GitHub e envia
+git remote add origin https://github.com/seu-usuario/ebac-portfolio.git
+git push -u origin main
+</script></div>
+<div class="callout warn">
+  <strong>docs/ e CLAUDE.md também vão para o repositório</strong>
+  <p>Com o <code>git add .</code>, a pasta <code>docs/</code> (enunciado e esta aula) e o <code>CLAUDE.md</code> entram no commit. Não atrapalha o deploy. Se preferir deixar o repositório só com o portfólio, rode <code>Add-Content .gitignore "docs/", "CLAUDE.md"</code> <b>antes</b> do <code>git add .</code>.</p>
+</div>
+
+<!-- ============ DEPLOY ============ -->
+<h2 id="deploy"><span class="num">16</span>Deploy na Vercel</h2>
+<p>A Vercel é gratuita para projetos pessoais, reconhece projetos Vite sozinha e publica de novo a cada <code>git push</code>.</p>
+<div class="diagram">
+  <div class="diagram-title">Fluxo de publicação</div>
+  <div class="flow">
+    <div class="step a"><b>git push</b><small>código no GitHub</small></div>
+    <div class="arrow">→</div>
+    <div class="step i"><b>Vercel detecta</b><small>roda <code>npm install</code> e <code>npm run build</code></small></div>
+    <div class="arrow">→</div>
+    <div class="step i"><b>Publica dist/</b><small>numa CDN</small></div>
+    <div class="arrow">→</div>
+    <div class="step o"><b>Link público</b><small><code>seu-portfolio.vercel.app</code></small></div>
+  </div>
+</div>
+<ol>
+  <li>Acesse <a href="https://vercel.com" target="_blank" rel="noreferrer">vercel.com</a> e clique em <b>Sign Up</b> → <b>Continue with GitHub</b>.</li>
+  <li>No painel, clique em <b>Add New…</b> → <b>Project</b> e, em <b>Import Git Repository</b>, escolha <code>ebac-portfolio</code> (se não aparecer, clique em <i>Adjust GitHub App Permissions</i> e libere o repositório).</li>
+  <li>Confira a configuração: <b>Framework Preset</b> = Vite, <b>Build Command</b> = <code>npm run build</code>, <b>Output Directory</b> = <code>dist</code>, <b>Root Directory</b> = <code>./</code>. Não mude nada.</li>
+  <li>Clique em <b>Deploy</b> e aguarde (menos de 1 minuto). No fim aparece a tela de parabéns com a miniatura do site.</li>
+  <li>Abra o domínio gerado (algo como <code>ebac-portfolio.vercel.app</code>) e repita os testes da seção 12. Para um nome melhor, vá em <b>Settings → Domains</b> e edite o subdomínio.</li>
+</ol>
+
+<p class="explain">Com o link definitivo em mãos, falta colocá-lo no README, que é onde o enunciado pede que ele esteja. Edite a linha "Versão online" do <code>README.md</code> com o endereço real e envie a alteração. Esse push também dispara um novo deploy automático na Vercel, que você pode acompanhar na aba <b>Deployments</b>.</p>
+<div class="file" data-path="terminal"><script type="text/plain">
+# Depois de trocar o link no README.md
+git add README.md
+git commit -m "docs: adiciona link do portfólio publicado"
+git push
+</script></div>
+<p class="note">Entrega: o link do repositório (<code>https://github.com/seu-usuario/ebac-portfolio</code>) com o link do site dentro do README.</p>
+
+<!-- ============ PROBLEMAS ============ -->
+<h2 id="problemas"><span class="num">17</span>Problemas comuns</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Erro / sintoma</th><th>Causa</th><th>Solução</th></tr></thead>
+  <tbody>
+    <tr><td><code>└ Operation cancelled</code> ao rodar <code>npm create vite@9.3.1 . -- --template react --no-interactive</code></td><td>A pasta atual não está vazia (tem <code>docs/</code> e <code>CLAUDE.md</code>)</td><td>Crie na subpasta <code>portfolio</code> e mova os arquivos, como no passo 3. Nunca use <code>--overwrite</code> nem "Remove existing files"</td></tr>
+    <tr><td><code>npm : O arquivo ...\npm.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema</code></td><td>Política de execução padrão do PowerShell no Windows</td><td>Rode uma vez <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> e abra um novo terminal</td></tr>
+    <tr><td><code>[UNRESOLVED_IMPORT] Could not resolve '../assets/projetos/efood.png' in src/data/projetos.js</code></td><td>O <code>import</code> aponta para um arquivo com nome ou extensão diferente do que existe</td><td>Confira o nome e a extensão em <code>src/assets/projetos/</code> (ex.: trocou a imagem por <code>.png</code> mas o import ainda diz <code>.svg</code>, ou vice-versa)</td></tr>
+    <tr><td>Página em branco no <code>npm run dev</code> logo após o <code>npm install</code></td><td>O <code>App.jsx</code> do modelo ainda importa <code>App.css</code> e imagens apagadas</td><td>Siga até o passo 11 e substitua o <code>App.jsx</code> inteiro</td></tr>
+    <tr><td><code>warning react(purity): Cannot call impure function during render</code> no <code>npm run lint</code></td><td><code>new Date()</code> (ou <code>Math.random()</code>) chamado dentro da função do componente</td><td>Calcule o valor fora do componente, como no <code>Rodape.jsx</code></td></tr>
+    <tr><td><code>Each child in a list should have a unique "key" prop.</code> no console</td><td>Um <code>.map()</code> sem <code>key</code> ou com valores repetidos</td><td>Use um valor único e estável: <code>id</code> do projeto, nome da categoria, nome da tecnologia</td></tr>
+    <tr><td>Estilo não aplica; no DevTools a classe aparece literalmente como <code>card</code></td><td>Usou <code>className="card"</code> em vez de <code>className={styles.card}</code>, ou o arquivo não termina em <code>.module.css</code></td><td>Importe <code>styles</code> do <code>.module.css</code> e use sempre <code>styles.nomeDaClasse</code></td></tr>
+    <tr><td>Ao clicar no menu, o título da seção fica escondido atrás do cabeçalho</td><td>Faltou <code>scroll-margin-top</code>, ou o <code>id</code> está numa <code>div</code> e não numa <code>section</code></td><td>Confira a regra <code>section[id]</code> do <code>global.css</code> e se a <code>Secao</code> renderiza <code>&lt;section id=...&gt;</code></td></tr>
+    <tr><td>O link do menu não fica azul ao rolar</td><td>O <code>id</code> em <code>secoes</code> (perfil.js) é diferente do <code>id</code> da seção</td><td>Use os mesmos ids nos dois lugares: <code>inicio</code>, <code>sobre</code>, <code>projetos</code>, <code>habilidades</code>, <code>contato</code></td></tr>
+    <tr><td>"Enviar mensagem" mostra sucesso, mas nenhum e-mail abre</td><td>O computador não tem programa de e-mail padrão configurado para links <code>mailto:</code></td><td>Comportamento normal do <code>mailto:</code>. Teste em outro dispositivo ou use Formspree/EmailJS (ver dica do passo 10)</td></tr>
+    <tr><td><code>git push</code> recusado: <code>Updates were rejected because the remote contains work that you do not have locally</code></td><td>O repositório foi criado no GitHub com README ou .gitignore</td><td>Rode <code>git pull origin main --allow-unrelated-histories</code>, resolva conflitos e faça o push de novo (ou recrie o repositório vazio)</td></tr>
+    <tr><td>Site publicado no GitHub Pages abre em branco (404 nos arquivos <code>/assets/...</code>)</td><td>No Pages o site fica em <code>/nome-do-repo/</code>, e o Vite gera caminhos a partir de <code>/</code></td><td>Prefira a Vercel, como na aula. Se quiser o Pages, adicione <code>base: '/nome-do-repo/'</code> no <code>vite.config.js</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============ CHECKLIST ============ -->
+<h2 id="checklist"><span class="num">18</span>Checklist final de entrega</h2>
+<p><span class="progress" id="progress"></span></p>
+<ul class="checklist" id="checklist">
+  <li><label><input type="checkbox" data-k="c1"><span>Arquivos organizados por responsabilidade (<code>components/</code>, <code>sections/</code>, <code>data/</code>, <code>hooks/</code>, <code>styles/</code>)</span></label></li>
+  <li><label><input type="checkbox" data-k="c2"><span>Página inicial com resumo profissional</span></label></li>
+  <li><label><input type="checkbox" data-k="c3"><span>Sobre mim com apresentação, foto (a sua, não o avatar provisório) e informações de contato</span></label></li>
+  <li><label><input type="checkbox" data-k="c4"><span>Pelo menos 3 projetos do curso com descrição, tecnologias diferentes, imagem real e link para repositório/demo</span></label></li>
+  <li><label><input type="checkbox" data-k="c5"><span>Habilidades com as principais tecnologias e competências</span></label></li>
+  <li><label><input type="checkbox" data-k="c6"><span>Contato com formulário funcionando (validação + envio) e links para redes profissionais</span></label></li>
+  <li><label><input type="checkbox" data-k="c7"><span>Navegação entre as seções funcionando no desktop e no menu do celular</span></label></li>
+  <li><label><input type="checkbox" data-k="c8"><span>Responsivo: sem rolagem horizontal em 375px</span></label></li>
+  <li><label><input type="checkbox" data-k="c9"><span>Estilização modular com CSS Modules (um <code>.module.css</code> por componente)</span></label></li>
+  <li><label><input type="checkbox" data-k="c10"><span>Componentes, props e hooks sem repetição; código comentado; <code>npm run lint</code> sem avisos</span></label></li>
+  <li><label><input type="checkbox" data-k="c11"><span>Dados de exemplo trocados pelos seus (nome, e-mail, links, projetos, título da aba)</span></label></li>
+  <li><label><input type="checkbox" data-k="c12"><span><code>npm run build</code> sem erros</span></label></li>
+  <li><label><input type="checkbox" data-k="c13"><span>Portfólio publicado na Vercel e testado no link público</span></label></li>
+  <li><label><input type="checkbox" data-k="c14"><span>README.md com como rodar localmente, link da versão online e descrição dos projetos</span></label></li>
+  <li><label><input type="checkbox" data-k="c15"><span>Repositório público no GitHub com o último commit enviado</span></label></li>
+</ul>
+
+<footer>Aula prática · Portfólio em React · Código testado em build e no navegador em 25/10/2026.</footer>
+</div>
+
+<script>
+  // Transforma cada bloco .file em cabeçalho (caminho + Copiar) + código
+  document.querySelectorAll('.file').forEach(function (box) {
+    var src = box.querySelector('script[type="text/plain"]');
+    var code = src.textContent.replace(/^\n/, '').replace(/\s+$/, '') + '\n';
+    var path = box.dataset.path;
+    var isTerminal = path === 'terminal';
+
+    var head = document.createElement('div');
+    head.className = 'file-head';
+    var label = document.createElement('span');
+    label.innerHTML = (isTerminal ? '<span class="tag">$</span>' : '<span class="tag">📄</span>') + path.replace(/</g, '&lt;');
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy';
+    btn.textContent = 'Copiar';
+    btn.addEventListener('click', function () {
+      function ok() { btn.textContent = 'Copiado!'; btn.classList.add('done'); setTimeout(function () { btn.textContent = 'Copiar'; btn.classList.remove('done'); }, 1500); }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = code; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); ok(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(ok, fallback);
+      } else { fallback(); }
+    });
+    head.appendChild(label);
+    head.appendChild(btn);
+
+    var pre = document.createElement('pre');
+    var el = document.createElement('code');
+    el.textContent = code;
+    pre.appendChild(el);
+
+    box.replaceChildren(head, pre);
+  });
+
+  // Checklist com progresso salvo no navegador
+  (function () {
+    var KEY = 'ebac-portfolio-react-2026-checklist';
+    var boxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+    var progress = document.getElementById('progress');
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { saved = {}; }
+    function update() {
+      var done = 0;
+      boxes.forEach(function (b) { if (b.checked) done++; });
+      progress.textContent = done + ' de ' + boxes.length + ' concluídos';
+    }
+    boxes.forEach(function (b) {
+      b.checked = !!saved[b.dataset.k];
+      b.addEventListener('change', function () {
+        saved[b.dataset.k] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        update();
+      });
+    });
+    update();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "titulo": "Projeto final: portfólio profissional com React",
+    "fonte": "docs/task.html",
+    "formato": "Aula prática única em HTML, do zero ao deploy",
+    "carga_horaria": "5 a 7 horas",
+    "atualizado_em": "2026-10-25"
+  },
+  "stack_validada": {
+    "data_do_teste": "2026-10-25",
+    "ambiente": "Windows 11, Node 24.15.0, npm 12.0.2, Microsoft Edge (Playwright 1.48.2)",
+    "versoes": {
+      "create-vite": "9.3.1",
+      "vite": "8.3.5",
+      "react": "19.3.1",
+      "react-dom": "19.3.1",
+      "@vitejs/plugin-react": "6.1.2",
+      "oxlint": "1.89.0",
+      "@types/react": "19.3.0",
+      "@types/react-dom": "19.3.0"
+    },
+    "decisoes": {
+      "estilizacao": "CSS Modules (nativo do Vite, sem dependências extras)",
+      "navegacao": "Página única com âncoras, scroll suave, destaque da seção ativa via IntersectionObserver (hook useSecaoAtiva) e menu hambúrguer no celular",
+      "formulario": "Formulário controlado com validação; envio por mailto: (sem back-end)",
+      "deploy": "Vercel conectada ao GitHub (preset Vite, saída dist)"
+    },
+    "validacao": [
+      "npm install limpo com versões exatas",
+      "npm run lint sem avisos",
+      "npm run build sem erros",
+      "31 verificações automatizadas no navegador (vite preview e vite dev): seções, menu, seção ativa, cards, imagens, formulário inválido/válido com URL mailto capturada, menu do celular, 375px sem rolagem horizontal, console sem erros e sem respostas 4xx",
+      "fluxo do aluno reproduzido numa pasta com docs/ e CLAUDE.md (scaffold em subpasta + mover para a raiz)"
+    ],
+    "armadilhas": [
+      "create-vite 9.3.1 em pasta não vazia com --no-interactive: 'Operation cancelled'; no modo interativo oferece apagar os arquivos (apagaria docs/)",
+      "create-vite 9 traz oxlint no lugar do ESLint (.oxlintrc.json)",
+      "oxlint: 'react(purity): Cannot call impure function during render' ao usar new Date() dentro do componente",
+      "Vite 8 (rolldown): import de imagem inexistente falha com '[UNRESOLVED_IMPORT] Could not resolve ...'",
+      "index.html contém </script>: na aula aparece só o trecho do <head>",
+      "Deploy na Vercel não pôde ser executado (exige conta); configuração descrita pelo preset Vite padrão"
+    ]
+  },
+  "aulas": [
+    {
+      "id": "aula-pratica-portfolio",
+      "arquivo": "docs/aula-pratica-portfolio.html",
+      "secoes": [
+        "Visão geral da tecnologia",
+        "Estrutura final",
+        "Criar o projeto",
+        "Base: HTML, entrada e estilo global",
+        "Dados e imagens",
+        "Componentes reutilizáveis",
+        "Navegação e cabeçalho",
+        "Seções Início e Sobre mim",
+        "Seções Projetos e Habilidades",
+        "Seção Contato e rodapé",
+        "Montar o App",
+        "Rodar e testar",
+        "Build de produção",
+        "README.md",
+        "Publicar no GitHub",
+        "Deploy na Vercel",
+        "Problemas comuns",
+        "Checklist final"
+      ],
+      "requisitos_atendidos": [
+        "Organização de arquivos, componentes e pastas por responsabilidade",
+        "Página inicial com resumo profissional",
+        "Sobre mim com apresentação, foto e contato",
+        "Projetos (4) com descrição, tecnologias variadas, imagem e links",
+        "Habilidades agrupadas por categoria",
+        "Contato com formulário validado e links para redes",
+        "Navegação clara e responsiva entre as seções",
+        "Estilização modular (CSS Modules)",
+        "Componentes, props e hooks (useState, useEffect, hook personalizado) sem repetição",
+        "Código comentado",
+        "Deploy em plataforma gratuita (Vercel)",
+        "README com execução local, link online e descrição dos projetos",
+        "Repositório público no GitHub"
+      ]
+    }
+  ]
+}
