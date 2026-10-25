@@ -74,19 +74,24 @@ Se o lint ou algum teste falhar, nada é publicado.
 
 ## Desempenho e acessibilidade
 
-O hero abre com uma imagem leve (`hero-poster.webp`). O terminal em WebGL é baixado em um arquivo separado e só é montado na primeira interação do visitante (mouse, toque, rolagem ou teclado). A foto foi convertida para WebP. A página toda caiu de 1,8 MB para cerca de 380 KB.
+O que mudou:
 
-Lighthouse, mobile:
+- **Hero:** abre com uma imagem leve (`hero-poster.webp`). O terminal em WebGL é baixado em um arquivo separado e só é montado na primeira interação do visitante (mouse, toque, rolagem ou teclado).
+- **Abaixo da primeira tela:** o letreiro das habilidades, a faixa curva do contato e o cursor-mira são carregados sob demanda.
+- **Fontes:** servidas pelo próprio site, com preload da fonte dos títulos.
+- **Foto:** convertida para WebP (de 1,5 MB para 38 KB).
 
-| Métrica | Antes | Depois |
-| --- | --- | --- |
-| Performance | 41 | 67 |
-| Acessibilidade | 93 | 96 |
-| Boas práticas | 100 | 100 |
-| SEO | 100 | 100 |
-| Peso total | 1,8 MB | 381 KB |
+| Métrica (Lighthouse) | Mobile antes | Mobile depois | Desktop antes | Desktop depois |
+| --- | --- | --- | --- | --- |
+| Performance | 35 | **85** | 61 | **100** |
+| Acessibilidade | 93 | **100** | 93 | **100** |
+| Boas práticas | 100 | 100 | 100 | 100 |
+| SEO | 100 | 100 | 100 | 100 |
+| Total Blocking Time | 6.481 ms | **211 ms** | 964 ms | **17 ms** |
+| Largest Contentful Paint | 6,82 s | **3,54 s** | 1,43 s | **0,75 s** |
+| Peso total | 1.831 KB | **396 KB** | 1.832 KB | **401 KB** |
 
-"Antes" foi medido no site publicado. "Depois" foi medido no build local (`npm run preview`), com uma execução só.
+Medianas de 3 execuções do Lighthouse 13.5.0 no build local. O relatório completo, com as etapas intermediárias, está em [`docs/relatorios/relatorio-antes-depois.pdf`](docs/relatorios/relatorio-antes-depois.pdf).
 
 ## Estrutura
 
