@@ -1,19 +1,27 @@
 // Habilidades agrupadas por categoria: a seção percorre os grupos e depois os itens.
 export const habilidades = [
   {
-    categoria: 'Linguagens e base',
-    itens: ['HTML5', 'CSS3', 'JavaScript (ES6+)', 'TypeScript'],
+    categoria: 'Virtualização e cloud',
+    itens: ['VMware vSphere', 'VMware Cloud Director', 'VMware NSX', 'HPE Morpheus', 'Veeam', 'Azure (fundamentos)'],
   },
   {
-    categoria: 'React e ecossistema',
-    itens: ['React', 'Hooks', 'Redux Toolkit', 'React Router', 'Formik + Yup'],
+    categoria: 'Containers e orquestração',
+    itens: ['Docker', 'Docker Compose', 'Kubernetes (RKE2)', 'Rancher', 'Nginx'],
   },
   {
-    categoria: 'Estilização',
-    itens: ['CSS Modules', 'Styled Components', 'SASS', 'Layout responsivo'],
+    categoria: 'Observabilidade',
+    itens: ['Zabbix', 'Grafana', 'Grafana Loki', 'Grafana Alloy'],
   },
   {
-    categoria: 'Ferramentas',
-    itens: ['Git e GitHub', 'Vite', 'npm', 'Vercel', 'Figma'],
+    categoria: 'Segurança e redes',
+    itens: ['Keycloak', 'SSO e MFA', 'Active Directory', 'TLS/mTLS', 'FortiGate', 'pfSense'],
+  },
+  {
+    categoria: 'Automação e IA',
+    itens: ['Python', 'PowerShell', 'Bash', 'n8n', 'APIs REST', 'LLMs'],
+  },
+  {
+    categoria: 'Desenvolvimento',
+    itens: ['Angular', 'Node.js', 'React', 'TypeScript', 'SQL (MySQL)', 'Git'],
   },
 ]

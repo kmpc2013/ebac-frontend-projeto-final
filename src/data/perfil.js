@@ -1,14 +1,19 @@
 // Dados pessoais num lugar só: trocar aqui atualiza todas as seções que os usam.
 export const perfil = {
   nome: 'Luis Fernandes',
-  cargo: 'Analista de Infraestrutura',
+  cargo: 'Analista de Infraestrutura Sênior',
   resumo:
-    'Transformo problemas de infraestrutura em soluções completas: identifico a causa, desenho a arquitetura, desenvolvo, aplico segurança, coloco em produção e entrego documentado para o time.',
+    'Mais de 10 anos em TI transformando problemas de infraestrutura em soluções completas: da análise à arquitetura, automação, segurança, deploy em produção e documentação.',
   sobre: [
-    'Atuo em um provedor de serviços gerenciados (MSP), cuidando de ambientes críticos de vários clientes com VMware vSphere, VMware Cloud Director, NSX e HPE Morpheus. Esse dia a dia me ensinou a investigar incidentes a fundo e a buscar a causa real, não só apagar incêndios.',
-    'Gosto de ir além da operação: quando encontro um problema recorrente, penso na solução de ponta a ponta. Já levei do zero à produção uma plataforma de relatórios integrada ao Zabbix e ao Grafana Loki com autenticação via Keycloak, além de conduzir a migração de containers Docker para Kubernetes (RKE2 + Rancher).',
-    'Para mim, uma entrega só termina quando está segura, monitorada, documentada e repassada, de forma que o time consiga manter e evoluir sem depender de mim.',
+    'Há mais de 7 anos atuo em um provedor de serviços gerenciados (MSP), onde evoluí de analista júnior a sênior sustentando ambientes críticos de vários clientes com VMware vSphere, Cloud Director, NSX, HPE Morpheus, Linux e Docker. Hoje lidero tecnicamente projetos de inovação e automação, da concepção à implantação, unindo infraestrutura e desenvolvimento de software.',
+    'Entre as entregas, estão uma plataforma de AIOps com IA para correlação de alertas e redução de eventos duplicados, a centralização de identidades com Keycloak (SSO, MFA e Active Directory) e a evolução da observabilidade com Zabbix, Grafana e Loki.',
   ],
+  // Frase de fechamento do Sobre: a palavra final alterna entre os estados da lista
+  manifesto: {
+    inicio: 'Uma entrega só termina quando está',
+    estados: ['segura', 'monitorada', 'documentada', 'repassada'],
+    fim: 'De forma que o time consiga manter e evoluir sem depender de mim.',
+  },
   localizacao: 'Joinville, SC',
   email: 'luis.vidio9@gmail.com',
   github: 'https://github.com/kmpc2013',
@@ -21,5 +26,6 @@ export const secoes = [
   { id: 'sobre', rotulo: 'Sobre mim' },
   { id: 'projetos', rotulo: 'Projetos' },
   { id: 'habilidades', rotulo: 'Habilidades' },
+  { id: 'formacao', rotulo: 'Formação' },
   { id: 'contato', rotulo: 'Contato' },
 ]
