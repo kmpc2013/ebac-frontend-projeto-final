@@ -3,6 +3,7 @@ import Cabecalho from './components/Cabecalho/Cabecalho'
 import Rodape from './components/Rodape/Rodape'
 import Inicio from './sections/Inicio/Inicio'
 import Sobre from './sections/Sobre/Sobre'
+import Experiencia from './sections/Experiencia/Experiencia'
 import Projetos from './sections/Projetos/Projetos'
 import Habilidades from './sections/Habilidades/Habilidades'
 import Formacao from './sections/Formacao/Formacao'
@@ -29,6 +30,7 @@ export default function App() {
       <main>
         <Inicio />
         <Sobre />
+        <Experiencia />
         <Projetos />
         <Habilidades />
         <Formacao />

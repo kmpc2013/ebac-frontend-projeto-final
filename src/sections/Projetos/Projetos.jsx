@@ -19,7 +19,7 @@ export default function Projetos() {
   const indiceAmpliado = projetos.findIndex((projeto) => projeto.id === ampliado)
 
   return (
-    <Secao id="projetos" indice="02" titulo="Projetos">
+    <Secao id="projetos" indice="03" titulo="Projetos">
       {/* MotionConfig "user": quem pediu menos movimento no sistema vê a imagem abrir sem animação.
           LayoutGroup: liga a miniatura e a imagem ampliada que têm o mesmo layoutId. */}
       <MotionConfig reducedMotion="user">

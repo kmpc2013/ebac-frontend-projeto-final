@@ -14,7 +14,7 @@ const faixas = [juntar(habilidades.slice(0, metade)), juntar(habilidades.slice(m
 
 export default function Habilidades() {
   return (
-    <Secao id="habilidades" indice="03" titulo="Habilidades">
+    <Secao id="habilidades" indice="04" titulo="Habilidades">
       {/* Letreiro gigante (ScrollVelocity, React Bits): acelera conforme a velocidade do scroll.
           É só decoração; a lista real e acessível vem logo abaixo. */}
       <div className={styles.letreiro} aria-hidden="true">

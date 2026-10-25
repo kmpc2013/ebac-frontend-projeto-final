@@ -5,7 +5,7 @@ import styles from './Formacao.module.css'
 // Formação acadêmica e certificações em duas listas no estilo "log": data | título | instituição
 export default function Formacao() {
   return (
-    <Secao id="formacao" indice="04" titulo="Formação">
+    <Secao id="formacao" indice="05" titulo="Formação">
       <div className={styles.grade}>
         <div>
           <h3 className={styles.subtitulo}>Acadêmica</h3>
