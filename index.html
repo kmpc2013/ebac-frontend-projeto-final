@@ -20,12 +20,14 @@
     <link rel="canonical" href="https://kmpc2013.github.io/ebac-frontend-projeto-final/" />
     <meta name="author" content="Luis Fernandes" />
     <meta name="theme-color" content="#07090b" />
-    <!-- Fontes: Bricolage Grotesque (títulos gigantes) e JetBrains Mono (rótulos estilo terminal) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fontes servidas pelo próprio site (importadas em src/main.jsx). O preload adianta o download
+         da fonte dos títulos, que aparece na primeira tela; o Vite troca o caminho pelo arquivo final. -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="./node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-opsz-normal.woff2"
     />
   </head>
   <body>
