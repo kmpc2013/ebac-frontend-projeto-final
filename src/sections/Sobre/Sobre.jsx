@@ -49,13 +49,14 @@ export default function Sobre() {
         </aside>
 
         <div className={styles.texto}>
-          {/* ScrollReveal (React Bits): as palavras acendem conforme a página rola */}
+          {/* ScrollReveal (React Bits): as palavras surgem conforme a página rola.
+              baseOpacity 0: começar com o texto meio apagado reprovava no teste de contraste */}
           {perfil.sobre.map((paragrafo) => (
             <ScrollReveal
               key={paragrafo}
               tag="p"
               containerClassName={styles.paragrafo}
-              baseOpacity={0.12}
+              baseOpacity={0}
               enableBlur
               blurStrength={6}
               baseRotation={0}
