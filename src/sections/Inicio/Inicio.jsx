@@ -1,23 +1,99 @@
 import { perfil } from '../../data/perfil'
+import FaultyTerminal from '../../components/reactbits/FaultyTerminal/FaultyTerminal'
+import Shuffle from '../../components/reactbits/Shuffle/Shuffle'
+import DecryptedText from '../../components/reactbits/DecryptedText/DecryptedText'
+import Magnet from '../../components/reactbits/Magnet/Magnet'
 import styles from './Inicio.module.css'
+
+// O nome é quebrado em palavras: cada uma vira uma linha gigante animada no h1
+const partesDoNome = perfil.nome.split(' ')
 
 // Página inicial (hero): primeira coisa que o recrutador vê. Nome, cargo, resumo e chamadas.
 export default function Inicio() {
   return (
     <section id="inicio" className={styles.inicio}>
-      <p className={styles.saudacao}>Olá, eu sou</p>
-      {/* Único h1 da página: o nome é o assunto principal do site */}
-      <h1 className={styles.nome}>{perfil.nome}</h1>
-      <p className={styles.cargo}>{perfil.cargo}</p>
-      <p className={styles.resumo}>{perfil.resumo}</p>
+      {/* Fundo: terminal em WebGL com glitch (React Bits). Puramente decorativo. */}
+      <div className={styles.fundo} aria-hidden="true">
+        <FaultyTerminal
+          tint="#c6ff3d"
+          glyphs="blocks"
+          scale={1.5}
+          digitSize={1.2}
+          timeScale={0.5}
+          brightness={0.6}
+          dpr={1.5}
+          glow={0.5}
+          persistence={0.5}
+          mouseStrength={0.5}
+          mouseGlow={0.6}
+          curvature={0.1}
+          vignette={0.25}
+          clickEffect="glitch"
+        />
+      </div>
+      {/* Camada de degradê por cima do terminal: garante contraste para o texto */}
+      <div className={styles.veu} aria-hidden="true" />
 
-      <div className={styles.acoes}>
-        <a href="#projetos" className={styles.botaoPrimario}>
-          Ver projetos
-        </a>
-        <a href="#contato" className={styles.botaoSecundario}>
-          Fale comigo
-        </a>
+      <div className={styles.conteudo}>
+        <p className={styles.prompt}>
+          <span aria-hidden="true">&gt; </span>
+          <DecryptedText text="whoami" animateOn="view" sequential speed={70} />
+        </p>
+
+        {/* Único h1 da página: o nome é o assunto principal do site.
+            Cada palavra embaralha as letras ao aparecer e de novo ao passar o mouse. */}
+        <h1 className={styles.nome}>
+          {partesDoNome.map((parte) => (
+            <Shuffle
+              key={parte}
+              text={parte}
+              tag="span"
+              className={styles.linhaNome}
+              textAlign="left"
+              shuffleDirection="right"
+              duration={0.4}
+              stagger={0.04}
+              shuffleTimes={2}
+              scrambleCharset="01#$%&<>/"
+              triggerOnHover
+            />
+          ))}
+        </h1>
+
+        <p className={styles.cargo}>
+          <DecryptedText
+            text={perfil.cargo}
+            animateOn="view"
+            revealDirection="start"
+            sequential
+            speed={35}
+            encryptedClassName={styles.cifrado}
+          />
+        </p>
+        <p className={styles.resumo}>{perfil.resumo}</p>
+
+        <div className={styles.acoes}>
+          {/* Magnet (React Bits): o botão é "puxado" levemente na direção do mouse */}
+          <Magnet padding={60} magnetStrength={3}>
+            <a href="#projetos" className={`${styles.botaoPrimario} cursor-target`}>
+              Ver projetos <span aria-hidden="true">→</span>
+            </a>
+          </Magnet>
+          <Magnet padding={60} magnetStrength={3}>
+            <a href="#contato" className={`${styles.botaoSecundario} cursor-target`}>
+              Fale comigo
+            </a>
+          </Magnet>
+        </div>
+      </div>
+
+      {/* Barra de status no pé do hero, como um painel de monitoramento */}
+      <div className={styles.status} aria-hidden="true">
+        <span>{perfil.localizacao}</span>
+        <span>
+          <span className={styles.ponto} /> status: online
+        </span>
+        <span className={styles.rolar}>scroll ↓</span>
       </div>
     </section>
   )

@@ -1,7 +1,4 @@
-.grade {
-  display: grid;
-  /* Quantas colunas couberem com no mínimo 300px cada: 1 no celular, 2 ou 3 no desktop.
-     O min(300px, 100%) evita estourar a tela em celulares com menos de 300px de conteúdo. */
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: 24px;
+/* Lista em linhas largas (sem cards): cada projeto separado por uma linha fina */
+.lista {
+  border-top: 1px solid var(--cor-borda);
 }
