@@ -6,7 +6,7 @@ export const perfil = {
     'Mais de 10 anos em TI transformando problemas de infraestrutura em soluções completas: da análise à arquitetura, automação, segurança, deploy em produção e documentação.',
   sobre: [
     'Há mais de 7 anos atuo em um provedor de serviços gerenciados (MSP), onde evoluí de analista júnior a sênior sustentando ambientes críticos de vários clientes com VMware vSphere, Cloud Director, NSX, HPE Morpheus, Linux e Docker. Hoje lidero tecnicamente projetos de inovação e automação, da concepção à implantação, unindo infraestrutura e desenvolvimento de software.',
-    'Entre as entregas, estão uma plataforma de AIOps com IA para correlação de alertas e redução de eventos duplicados, a centralização de identidades com Keycloak (SSO, MFA e Active Directory), a evolução da observabilidade com Zabbix, Grafana e Loki e a migração de ~63 containers de 15 aplicações para um cluster Kubernetes (RKE2 + Rancher).',
+    'Entre as entregas, estão uma plataforma de AIOps com IA para correlação de alertas e redução de eventos duplicados, a centralização de identidades com Keycloak (SSO, MFA e Active Directory) e a evolução da observabilidade com Zabbix, Grafana e Loki.',
   ],
   // Frase de fechamento do Sobre: a palavra final alterna entre os estados da lista
   manifesto: {
