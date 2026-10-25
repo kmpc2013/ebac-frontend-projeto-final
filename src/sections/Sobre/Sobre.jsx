@@ -2,7 +2,8 @@ import Secao from '../../components/Secao/Secao'
 import ScrollReveal from '../../components/reactbits/ScrollReveal/ScrollReveal'
 import RotatingText from '../../components/reactbits/RotatingText/RotatingText'
 import { perfil } from '../../data/perfil'
-import foto from '../../assets/profile-pic-noback-270x338.png'
+// WebP 540x676 gerado a partir de profile-pic-noback-270x338.png (1,5 MB -> 38 KB)
+import foto from '../../assets/foto-perfil.webp'
 import styles from './Sobre.module.css'
 
 export default function Sobre() {
@@ -14,7 +15,15 @@ export default function Sobre() {
         {/* Coluna da esquerda: foto numa "tela de monitor" + dados rápidos. Fica presa no desktop. */}
         <aside className={styles.lateral}>
           <figure className={styles.monitor}>
-            <img src={foto} alt={`Foto de ${perfil.nome}`} className={styles.foto} />
+            {/* width/height reservam o espaço da foto antes de ela carregar (a página não "pula") */}
+            <img
+              src={foto}
+              alt={`Foto de ${perfil.nome}`}
+              className={styles.foto}
+              width="540"
+              height="676"
+              loading="lazy"
+            />
             <figcaption className={styles.legenda} aria-hidden="true">
               cam_01 · rec ●
             </figcaption>

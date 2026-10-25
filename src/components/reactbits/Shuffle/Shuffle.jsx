@@ -171,7 +171,10 @@ const Shuffle = ({
           wordsClass: 'shuffle-word',
           linesClass: 'shuffle-line',
           smartWrap: true,
-          reduceWhiteSpace: false
+          reduceWhiteSpace: false,
+          // Ajuste local: o padrão ("auto") põe aria-label num <span> sem role, o que o
+          // Lighthouse aponta como ARIA proibido. O texto acessível fica a cargo de quem usa o Shuffle.
+          aria: 'none'
         });
 
         const chars = splitRef.current.chars || [];

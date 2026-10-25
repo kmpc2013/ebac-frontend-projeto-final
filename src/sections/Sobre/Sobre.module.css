@@ -29,6 +29,8 @@
 
 .foto {
   width: 100%;
+  /* height: auto anula o height="676" do HTML (que só serve para reservar a proporção) */
+  height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   filter: grayscale(1) contrast(1.1);
