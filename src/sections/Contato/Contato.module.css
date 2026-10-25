@@ -24,6 +24,18 @@
   color: var(--cor-texto-suave);
 }
 
+.disponibilidade {
+  margin: 0;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
+}
+
+.disponibilidade span {
+  color: var(--cor-destaque);
+}
+
 .email {
   font-size: clamp(1.5rem, 3.6vw, 3rem);
   font-weight: 700;

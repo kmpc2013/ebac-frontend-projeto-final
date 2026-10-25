@@ -12,11 +12,13 @@ const redes = [
   { nome: 'LinkedIn', url: perfil.linkedin },
   { nome: 'GitHub', url: perfil.github },
   { nome: 'E-mail', url: `mailto:${perfil.email}` },
+  // O currículo baixa direto: sem abrir nova aba
+  { nome: 'Currículo (PDF)', url: `${import.meta.env.BASE_URL}${perfil.curriculo}`, download: true },
 ]
 
 export default function Contato() {
   return (
-    <Secao id="contato" indice="05" titulo="Contato">
+    <Secao id="contato" indice="06" titulo="Contato">
       {/* Faixa curva (CurvedLoop, React Bits): dá para arrastar com o mouse. Decorativa. */}
       <div className={styles.faixaCurva} aria-hidden="true">
         <Suspense fallback={null}>
@@ -38,6 +40,9 @@ export default function Contato() {
             Está procurando alguém para o seu time ou quer conversar sobre um projeto? Mande uma
             mensagem ou me encontre nas redes abaixo.
           </p>
+          <p className={styles.disponibilidade}>
+            <span>Aberto a:</span> {perfil.disponibilidade.join(' · ')}
+          </p>
 
           {/* E-mail gigante: o caminho mais curto para falar comigo */}
           <a href={`mailto:${perfil.email}`} className={`${styles.email} cursor-target`}>
@@ -47,7 +52,11 @@ export default function Contato() {
           <ul className={styles.redes}>
             {redes.map((rede, indice) => (
               <li key={rede.nome}>
-                <a href={rede.url} target="_blank" rel="noreferrer" className="cursor-target">
+                <a
+                  href={rede.url}
+                  {...(rede.download ? { download: true } : { target: '_blank', rel: 'noreferrer' })}
+                  className="cursor-target"
+                >
                   <span aria-hidden="true">{String(indice + 1).padStart(2, '0')}</span>
                   {rede.nome}
                   <span aria-hidden="true">↗</span>
