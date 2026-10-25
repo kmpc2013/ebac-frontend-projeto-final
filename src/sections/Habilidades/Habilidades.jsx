@@ -1,8 +1,11 @@
+import { lazy, Suspense } from 'react'
 import Secao from '../../components/Secao/Secao'
 import Etiqueta from '../../components/Etiqueta/Etiqueta'
-import ScrollVelocity from '../../components/reactbits/ScrollVelocity/ScrollVelocity'
 import { habilidades } from '../../data/habilidades'
 import styles from './Habilidades.module.css'
+
+// lazy: o letreiro fica bem abaixo da primeira tela, então não precisa atrasar o carregamento inicial
+const ScrollVelocity = lazy(() => import('../../components/reactbits/ScrollVelocity/ScrollVelocity'))
 
 // Duas faixas para o letreiro: metade dos grupos em cada uma, itens separados por ✦
 const metade = Math.ceil(habilidades.length / 2)
@@ -15,15 +18,17 @@ export default function Habilidades() {
       {/* Letreiro gigante (ScrollVelocity, React Bits): acelera conforme a velocidade do scroll.
           É só decoração; a lista real e acessível vem logo abaixo. */}
       <div className={styles.letreiro} aria-hidden="true">
-        <ScrollVelocity
-          texts={faixas}
-          velocity={40}
-          numCopies={4}
-          className={styles.faixa}
-          outlineAlternate
-          skewWithVelocity={8}
-          fadeEdges
-        />
+        <Suspense fallback={null}>
+          <ScrollVelocity
+            texts={faixas}
+            velocity={40}
+            numCopies={4}
+            className={styles.faixa}
+            outlineAlternate
+            skewWithVelocity={8}
+            fadeEdges
+          />
+        </Suspense>
       </div>
 
       <div className={styles.grade}>
