@@ -76,10 +76,41 @@
   color: var(--cor-destaque);
 }
 
+/* A moldura é um <button>: zera o estilo padrão do navegador */
 .moldura {
+  position: relative;
   order: -1;
+  display: block;
+  width: 100%;
+  padding: 0;
   overflow: hidden;
+  font: inherit;
+  color: inherit;
+  background: none;
   border: 1px solid var(--cor-borda);
+  cursor: zoom-in;
+}
+
+/* Camada que o motion anima até a versão ampliada */
+.camadaImagem {
+  display: block;
+}
+
+/* Selo "Ampliar ⤢": sempre visível no celular, aparece no hover/foco no desktop */
+.selo {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 6px 10px;
+  font-family: var(--fonte-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cor-fundo);
+  background: var(--cor-destaque);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 
 .imagem {
@@ -130,6 +161,18 @@
     filter: grayscale(0);
   }
 
+  /* No desktop o selo só aparece quando o mouse está sobre a própria imagem */
+  .selo {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  .moldura:hover .selo,
+  .moldura:focus-visible .selo {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .linha:hover .titulo,
   .linha:focus-within .titulo {
     color: var(--cor-destaque);
@@ -140,7 +183,8 @@
 @media (prefers-reduced-motion: reduce) {
   .titulo,
   .moldura,
-  .imagem {
+  .imagem,
+  .selo {
     transition: none;
   }
 }
