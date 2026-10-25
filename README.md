@@ -11,7 +11,7 @@ Portfólio profissional de **Analista de Infraestrutura Sênior**, desenvolvido 
 - **Início:** nome, cargo, resumo profissional e atalhos para projetos e contato
 - **Sobre mim:** foto, trajetória e dados de contato
 - **Experiência:** cargos, períodos e principais conquistas
-- **Projetos:** 9 projetos (6 profissionais e 3 do curso da EBAC), cada um com descrição, tecnologias, diagrama e links
+- **Projetos:** 3 projetos do curso da EBAC, cada um com descrição, tecnologias, diagrama e links
 - **Habilidades:** tecnologias agrupadas em 6 áreas
 - **Formação:** formação acadêmica e certificações
 - **Contato:** formulário com validação e links para LinkedIn, GitHub e e-mail
@@ -28,26 +28,13 @@ Portfólio profissional de **Analista de Infraestrutura Sênior**, desenvolvido 
 
 ## Projetos apresentados
 
-### Projetos do curso (EBAC)
+Três projetos feitos no curso de Front-end da EBAC, cada um com uma tecnologia em destaque:
 
 | Projeto | O que é | Destaque | Tecnologias | Links |
 | --- | --- | --- | --- | --- |
 | To-Do List com testes unitários | Lista de tarefas com Server Components, Server Actions e um hook personalizado, testada com Jest e React Testing Library | **CI/CD: lint, testes e build antes de cada deploy** | Next.js, TypeScript, Jest, RTL, GitHub Actions, Vercel | [Repositório](https://github.com/kmpc2013/ebac-frontend-testes-unitarios) · [Online](https://ebac-frontend-testes-unitarios.vercel.app/) |
 | Pet&Style: performance e otimização | Landing page medida, diagnosticada e otimizada com o Lighthouse, uma etapa por commit | **Performance 90 → 100 e −79% de peso** | HTML, Tailwind CSS, Lighthouse, AVIF/WebP | [Repositório](https://github.com/kmpc2013/ebac-frontend-performance-e-otimizacao) · [Online](https://kmpc2013.github.io/ebac-frontend-performance-e-otimizacao/) |
 | Restaurante com micro frontends | Container que carrega os micros Cardápio e Pedido em tempo de execução, que se comunicam por um CustomEvent | **3 apps publicáveis de forma independente** | Next.js, React, Module Federation, Webpack 5, CSS Modules | [Repositório](https://github.com/kmpc2013/ebac-frontend-microfrontends) |
-
-### Projetos profissionais
-
-| Projeto | Problema → solução | Impacto | Tecnologias |
-| --- | --- | --- | --- |
-| Plataforma de logs multi-cliente com mTLS | Logs de vários clientes centralizados num Loki próprio, com um certificado mTLS por cliente e configuração dos agentes via Git | **+30 servidores centralizados** | Grafana Loki, Grafana Alloy, mTLS, Git, Docker, CI/CD |
-| Correlação de eventos: do alerta ao chamado único | Alertas do Zabbix agrupados por host num único chamado no ITSM, com título gerado por LLM e mais de 860 testes automatizados | **−70% de ruído operacional** | Zabbix, LLMs, ITSM, APIs REST, CI/CD |
-| Gateway de IA corporativa on-premises | IA generativa interna para os dados não saírem da empresa, com borda endurecida e migração com rollback documentado | **+10 usuários em vários modelos** | LibreChat, Open WebUI, LiteLLM, vLLM, Nginx, TLS 1.3 |
-| ReportHub: relatórios executivos sob demanda | Portal com SSO que gera relatórios e dossiês de alerta a partir dos logs, com fila assíncrona e trilha de auditoria | **De relatório manual a autoatendimento padronizado** | Keycloak, OIDC, Docker, CI/CD |
-| Identidade única: SSO corporativo com Keycloak | Login único com MFA para GitLab, Grafana, Zabbix, GLPI e ferramentas de IA | **+6 sistemas e +150 usuários** | Keycloak, OIDC, SAML, MFA, Active Directory |
-| [ZmapL](https://github.com/kmpc2013/ZmapL) | Chamados de backup classificados pelo cliente e serviço corretos, com portal para gerenciar o mapeamento | **+100 clientes mapeados** | Zabbix (API), Angular, Node.js, MySQL, Docker, Veeam, OTRS |
-
-Entre os profissionais, só o ZmapL tem repositório público. Os outros são projetos internos da empresa e aparecem no site como "Repositório privado".
 
 ## Como rodar localmente
 
