@@ -27,14 +27,14 @@ Portfólio profissional de **Analista de Infraestrutura Sênior**, desenvolvido 
 
 ## Projetos apresentados
 
-| Projeto | Problema → solução | Tecnologias |
-| --- | --- | --- |
-| Plataforma de logs multi-cliente com mTLS | Logs de vários clientes centralizados num Loki próprio, com um certificado mTLS por cliente e configuração dos agentes via Git | Grafana Loki, Grafana Alloy, mTLS, Git, Docker, CI/CD |
-| Correlação de eventos: do alerta ao chamado único | Alertas do Zabbix agrupados por host num único chamado no ITSM, com título gerado por LLM e mais de 860 testes automatizados | Zabbix, LLMs, ITSM, APIs REST, CI/CD |
-| Gateway de IA corporativa on-premises | IA generativa interna para os dados não saírem da empresa, com borda endurecida e migração com rollback documentado | LibreChat, Open WebUI, LiteLLM, vLLM, Nginx, TLS 1.3 |
-| ReportHub: relatórios executivos sob demanda | Portal com SSO que gera relatórios e dossiês de alerta a partir dos logs, com fila assíncrona e trilha de auditoria | Keycloak, OIDC, Docker, CI/CD |
-| Identidade única: SSO corporativo com Keycloak | Login único com MFA para GitLab, Grafana, Zabbix, GLPI e ferramentas de IA | Keycloak, OIDC, SAML, MFA, Active Directory |
-| [ZmapL](https://github.com/kmpc2013/ZmapL) | Chamados de backup classificados pelo cliente e serviço corretos, com portal para gerenciar o mapeamento | Zabbix (API), Angular, Node.js, MySQL, Docker, Veeam, OTRS |
+| Projeto | Problema → solução | Impacto | Tecnologias |
+| --- | --- | --- | --- |
+| Plataforma de logs multi-cliente com mTLS | Logs de vários clientes centralizados num Loki próprio, com um certificado mTLS por cliente e configuração dos agentes via Git | **+30 servidores centralizados** | Grafana Loki, Grafana Alloy, mTLS, Git, Docker, CI/CD |
+| Correlação de eventos: do alerta ao chamado único | Alertas do Zabbix agrupados por host num único chamado no ITSM, com título gerado por LLM e mais de 860 testes automatizados | **−70% de ruído operacional** | Zabbix, LLMs, ITSM, APIs REST, CI/CD |
+| Gateway de IA corporativa on-premises | IA generativa interna para os dados não saírem da empresa, com borda endurecida e migração com rollback documentado | **+10 usuários em vários modelos** | LibreChat, Open WebUI, LiteLLM, vLLM, Nginx, TLS 1.3 |
+| ReportHub: relatórios executivos sob demanda | Portal com SSO que gera relatórios e dossiês de alerta a partir dos logs, com fila assíncrona e trilha de auditoria | **De relatório manual a autoatendimento padronizado** | Keycloak, OIDC, Docker, CI/CD |
+| Identidade única: SSO corporativo com Keycloak | Login único com MFA para GitLab, Grafana, Zabbix, GLPI e ferramentas de IA | **+6 sistemas e +150 usuários** | Keycloak, OIDC, SAML, MFA, Active Directory |
+| [ZmapL](https://github.com/kmpc2013/ZmapL) | Chamados de backup classificados pelo cliente e serviço corretos, com portal para gerenciar o mapeamento | **+100 clientes mapeados** | Zabbix (API), Angular, Node.js, MySQL, Docker, Veeam, OTRS |
 
 Só o ZmapL tem repositório público. Os outros são projetos internos da empresa e aparecem no site como "Repositório privado".
 
