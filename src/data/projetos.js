@@ -8,7 +8,8 @@ import imgZmapl from '../assets/projetos/zmapl.svg'
 
 // Cada objeto vira uma <LinhaProjeto>. Para adicionar um projeto, basta incluir um item.
 // repositorio: null = projeto interno da empresa (a linha mostra "Repositório privado").
-// status: opcional; quando existe, aparece ao lado do título.
+// status: opcional; quando existe, aparece acima do título.
+// impacto: opcional; resultado em número (ex.: "−70% de chamados duplicados"), aparece abaixo do título.
 export const projetos = [
   {
     id: 'logs-mtls',

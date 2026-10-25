@@ -3,7 +3,17 @@ import styles from './LinhaProjeto.module.css'
 
 // Recebe um projeto por props e monta uma linha da lista. Não sabe de onde os dados vêm:
 // quem decide a lista é a seção Projetos (que também manda o "numero" da linha).
-export default function LinhaProjeto({ numero, titulo, descricao, imagem, tecnologias, repositorio, demo, status }) {
+export default function LinhaProjeto({
+  numero,
+  titulo,
+  descricao,
+  impacto,
+  imagem,
+  tecnologias,
+  repositorio,
+  demo,
+  status,
+}) {
   return (
     <article className={styles.linha}>
       <span className={styles.numero} aria-hidden="true">
@@ -18,6 +28,13 @@ export default function LinhaProjeto({ numero, titulo, descricao, imagem, tecnol
           </p>
         )}
         <h3 className={styles.titulo}>{titulo}</h3>
+        {/* Resultado em número (opcional): a primeira coisa que o recrutador lê depois do título */}
+        {impacto && (
+          <p className={styles.impacto}>
+            <span aria-hidden="true">▲ </span>
+            {impacto}
+          </p>
+        )}
         <p className={styles.descricao}>{descricao}</p>
 
         <ul className={styles.tecnologias} aria-label="Tecnologias usadas">

@@ -175,3 +175,14 @@
   background: var(--cor-destaque);
   box-shadow: 0 0 10px var(--cor-destaque);
 }
+
+/* Resultado do projeto em número, logo abaixo do título */
+.impacto {
+  margin: 0;
+  font-family: var(--fonte-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cor-destaque);
+}
