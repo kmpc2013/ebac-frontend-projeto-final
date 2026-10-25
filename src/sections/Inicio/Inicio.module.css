@@ -100,9 +100,22 @@
 
 .resumo {
   max-width: 52ch;
-  margin: 0 0 32px;
+  margin: 0 0 16px;
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   color: var(--cor-texto-suave);
+}
+
+.disponibilidade {
+  max-width: 60ch;
+  margin: 0 0 32px;
+  font-family: var(--fonte-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--cor-texto-suave);
+}
+
+.rotulo {
+  color: var(--cor-destaque);
 }
 
 .acoes {

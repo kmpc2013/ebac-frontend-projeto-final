@@ -13,6 +13,9 @@ const FaultyTerminal = lazy(() => import('../../components/reactbits/FaultyTermi
 // O nome é quebrado em palavras: cada uma vira uma linha gigante animada no h1
 const partesDoNome = perfil.nome.split(' ')
 
+// BASE_URL: no GitHub Pages o site fica em /<repositório>/, e o PDF vem de public/
+const linkCurriculo = `${import.meta.env.BASE_URL}${perfil.curriculo}`
+
 // Página inicial (hero): primeira coisa que o recrutador vê. Nome, cargo, resumo e chamadas.
 export default function Inicio() {
   // O WebGL é pesado para montar (principalmente em celular). A primeira tela abre com uma
@@ -92,6 +95,9 @@ export default function Inicio() {
           />
         </p>
         <p className={styles.resumo}>{perfil.resumo}</p>
+        <p className={styles.disponibilidade}>
+          <span className={styles.rotulo}>Aberto a:</span> {perfil.disponibilidade.join(' · ')}
+        </p>
 
         <div className={styles.acoes}>
           {/* Magnet (React Bits): o botão é "puxado" levemente na direção do mouse */}
@@ -103,6 +109,11 @@ export default function Inicio() {
           <Magnet padding={60} magnetStrength={3}>
             <a href="#contato" className={`${styles.botaoSecundario} cursor-target`}>
               Fale comigo
+            </a>
+          </Magnet>
+          <Magnet padding={60} magnetStrength={3}>
+            <a href={linkCurriculo} download className={`${styles.botaoSecundario} cursor-target`}>
+              Baixar currículo (PDF)
             </a>
           </Magnet>
         </div>
