@@ -37,7 +37,7 @@ export const projetos = [
   {
     id: 'gateway-ia',
     titulo: 'Gateway de IA corporativa on-premises',
-    impacto: '+10 usuários em vários modelos',
+    impacto: '0 dados enviados a terceiros',
     descricao:
       'IA generativa interna (LibreChat, Open WebUI e LiteLLM sobre vLLM) para que os dados não saiam da empresa. A borda tem TLS 1.3, HSTS, CSP e rate limit, e a migração foi conduzida com scripts de preflight, cutover e rollback documentados.',
     imagem: imgGateway,
@@ -48,7 +48,7 @@ export const projetos = [
   {
     id: 'reporthub',
     titulo: 'ReportHub: relatórios executivos sob demanda',
-    impacto: 'De relatório manual a autoatendimento padronizado',
+    impacto: 'Relatórios avançados em segundos',
     descricao:
       'Portal com SSO (Keycloak/OIDC) que gera relatórios executivos e dossiês de alerta a partir dos logs, com execução assíncrona, limites de concorrência e trilha de auditoria. Tem cerca de 130 testes e CI/CD com versionamento automático de imagens.',
     imagem: imgReporthub,

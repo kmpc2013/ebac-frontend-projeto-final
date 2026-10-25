@@ -2,7 +2,7 @@
 export const habilidades = [
   {
     categoria: 'Virtualização e cloud',
-    itens: ['VMware vSphere', 'VMware Cloud Director', 'VMware NSX', 'HPE Morpheus', 'Veeam', 'Azure (fundamentos)'],
+    itens: ['VMware vSphere', 'VMware Cloud Director', 'VMware NSX', 'HPE Morpheus', 'Veeam'],
   },
   {
     categoria: 'Containers e orquestração',
